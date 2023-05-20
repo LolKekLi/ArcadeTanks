@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef96d2c45cd45ce95f29c033fbdb613, type: 3}
+  m_Name: PoolSettings
+  m_EditorClassIdentifier: 
+  <PooledAudio>k__BackingField: {fileID: 6721363782500263695, guid: f5e361ba72fd74ab484d6986ab7239ef, type: 3}
+  <Resource>k__BackingField: {fileID: 3458164577239922987, guid: 7a001eb2c1dfa4c5eadc752bc99a73c7, type: 3}
+  <Employee>k__BackingField: {fileID: 8497864381463704723, guid: dfc3e1dbab05d429aa5fe400daa5ea17, type: 3}
+  <Customer>k__BackingField: {fileID: 5285414636685602992, guid: 7032d826f8e79410a9edba013f78cdf1, type: 3}
+  <Cashier>k__BackingField: {fileID: -964730041022272511, guid: 60c69a5443bc44a328b789b83083f710, type: 3}
+  <Coin>k__BackingField: {fileID: 7179423641747867188, guid: e6076ab2729684810b76247c600d661a, type: 3}

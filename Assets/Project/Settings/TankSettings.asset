@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f9b3c51b2343ac86ed56e84aa9af82, type: 3}
+  m_Name: TankSettings
+  m_EditorClassIdentifier: 
+  <ClassicFirePresets>k__BackingField:
+    <ReloadTime>k__BackingField: 2
+    <Damage>k__BackingField: 1
+    <Bullet>k__BackingField: {fileID: 7552137636268246904, guid: a2a11f4e4d315f54ea34aa4906b530a1,
+      type: 3}
+  <FireTankFirePresets>k__BackingField:
+    <ReloadTime>k__BackingField: 0.2
+    <Damage>k__BackingField: 0
+    <Bullet>k__BackingField: {fileID: 0}
+    <AttackTime>k__BackingField: 0
+  <TwoGunFirePreset>k__BackingField:
+    <ReloadTime>k__BackingField: 0
+    <Damage>k__BackingField: 0
+    <Bullet>k__BackingField: {fileID: 0}
+    <AttackTime>k__BackingField: 0
+    <StartAttackTime>k__BackingField: 0
