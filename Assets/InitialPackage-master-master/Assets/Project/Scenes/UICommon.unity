@@ -504,26 +504,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 699786702}
     m_Modifications:
-    - target: {fileID: 1147712502880229048, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1147712502880229048, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1147712502880229048, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 245
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510737291797238541, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1525107625205393229, guid: def6bdc83b884475d858bd968c7ff476,
         type: 3}
       propertyPath: m_Pivot.x
@@ -629,40 +609,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1618430332392421693, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6685987323773800241, guid: def6bdc83b884475d858bd968c7ff476,
         type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7434557234762198379, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_Name
-      value: ResultWindow
-      objectReference: {fileID: 0}
-    - target: {fileID: 7434557234762198379, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7485501599577678068, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9222496237143870459, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9222496237143870459, guid: def6bdc83b884475d858bd968c7ff476,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: def6bdc83b884475d858bd968c7ff476, type: 3}

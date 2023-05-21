@@ -39,7 +39,14 @@ public class TankFireSettings : ScriptableObject
     public class FireTankFirePreset : BaseFirePreset
     {
         [field: SerializeField]
-        public float AttackTime
+        public float FlameAttackTime
+        {
+            get;
+            private set;
+        }
+
+        [field: SerializeField]
+        public float FireDelay
         {
             get;
             private set;
@@ -50,14 +57,14 @@ public class TankFireSettings : ScriptableObject
     public class TwoGunAttackPreset : BaseFirePreset
     {
         [field: SerializeField]
-        public float AttackTime
+        public FloatRange FireDelay
         {
             get;
             private set;
         }
-
+        
         [field: SerializeField]
-        public float StartAttackTime
+        public float OverclockingTime
         {
             get;
             private set;
@@ -92,13 +99,10 @@ public class TankFireSettings : ScriptableObject
         {
             case TurretType.Classic:
                 return ClassicFirePresets.Bullet;
-                break;
             case TurretType.Fire:
                 return FireTankFirePresets.Bullet;
-                break;
             case TurretType.TwoGuns:
                 return TwoGunFirePreset.Bullet;
-                break;
             default:
                 return null;
         }

@@ -18,7 +18,7 @@ namespace Project
             get;
         }
 
-        public virtual void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory)
+        public virtual void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory, float fireRange)
         {
             _firePosition = firePosition;
             _bulletFactory = bulletFactory;

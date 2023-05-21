@@ -65,7 +65,7 @@ namespace Project
                 time += Time.deltaTime;
             }
             
-            var levelWaiter = _levelFlowController.Load();
+            var levelWaiter = _levelFlowController.LoadHub();
 
             while (levelWaiter.Status == UniTaskStatus.Pending || time < _loadingSettings.LoadingTime)
             {

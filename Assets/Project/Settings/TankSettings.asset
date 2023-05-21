@@ -18,13 +18,18 @@ MonoBehaviour:
     <Bullet>k__BackingField: {fileID: 7552137636268246904, guid: a2a11f4e4d315f54ea34aa4906b530a1,
       type: 3}
   <FireTankFirePresets>k__BackingField:
-    <ReloadTime>k__BackingField: 0.2
-    <Damage>k__BackingField: 0
-    <Bullet>k__BackingField: {fileID: 0}
-    <AttackTime>k__BackingField: 0
+    <ReloadTime>k__BackingField: 20
+    <Damage>k__BackingField: 0.2
+    <Bullet>k__BackingField: {fileID: 8622017784560180206, guid: 8eb6c243e89795547833050b099d4b5b,
+      type: 3}
+    <FlameAttackTime>k__BackingField: 3
+    <FireDelay>k__BackingField: 0.1
   <TwoGunFirePreset>k__BackingField:
     <ReloadTime>k__BackingField: 0
     <Damage>k__BackingField: 0
-    <Bullet>k__BackingField: {fileID: 0}
-    <AttackTime>k__BackingField: 0
-    <StartAttackTime>k__BackingField: 0
+    <Bullet>k__BackingField: {fileID: 7552137636268246904, guid: 9f0fe82d37aa6f8439a3b57ae89b5142,
+      type: 3}
+    <FireDelay>k__BackingField:
+      _min: 0.1
+      _max: 4
+    <OverclockingTime>k__BackingField: 5

@@ -1,71 +1,81 @@
 using UnityEngine;
 using System;
+using Project;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof( Rigidbody), typeof(InputController))]
 public class TankMovement : MonoBehaviour
 {
-    [Header("Tank Power Settings")]
-    public float turnTorque = 1f;
-
-    public float driveTorque = 2f;
-    public float brakeStrength = 3f;
-    public float turningForceCoefficient = 0.7f;
-    public float forwardForceCoefficient = 12f;
-
-    [Header("Tank Turning Friction")]
-    public float movementSidewaysFriction = 2.2f;
-    public float stillSidewaysFriction = 0.8f;
-
-    [Header("Wheel Colliders")]
-    public WheelCollider[] leftWheelColliders;
-    public WheelCollider[] rightWheelColliders;
-
-    [Header("Tank Physical Settings")]
-    public float centerOfMassYOffset = -1.0f;
-
-    private float curAngle;
-
     [SerializeField]
     private GrodedChecker _grodedChecker = null;
+    
+    [FormerlySerializedAs("leftWheelColliders")]
+    [Header("Wheel Colliders")]
+    public WheelCollider[] _leftWheelColliders;
+    [FormerlySerializedAs("rightWheelColliders")]
+    public WheelCollider[] _rightWheelColliders;
+    
+    private float _turnTorque = 1f;
 
-    private WheelFrictionCurve[] sFrictionLeft;
-    private WheelFrictionCurve[] sFrictionRight;
+    private float _driveTorque = 2f;
+    private float _brakeStrength = 3f;
+    private float _turningForceCoefficient = 0.7f;
+    private float _forwardForceCoefficient = 12f;
+    private float _movementSidewaysFriction = 2.2f;
+    private float _stillSidewaysFriction = 0.8f;
+    private float _centerOfMassYOffset = -1.0f;
+    private float _curAngle;
+    
+    private WheelFrictionCurve[] _sFrictionLeft;
+    private WheelFrictionCurve[] _sFrictionRight;
+    
     private Rigidbody rigidBody;
     private InputController inputs;
 
-    [Header("Visualised Inspector Data")]
-   
+  
     [SerializeField]
     private float velocityInKMH;
+    
+    public void Setup(TankBodySettings.TankMovementPreset preset)
+    {
+        _turnTorque = preset.TurnTorque;
+        _driveTorque = preset.DriveTorque;
+        _brakeStrength = preset.BrakeStrength;
+        _turningForceCoefficient = preset.TurningForceCoefficient;
+        _forwardForceCoefficient = preset.ForwardForceCoefficient;
+        _movementSidewaysFriction = preset.MovementSidewaysFriction;
+        _stillSidewaysFriction = preset.StillSidewaysFriction;
+        _centerOfMassYOffset = preset.CenterOfMassYOffset;
+        
+        _turnTorque *= 1000000f;
+        _driveTorque *= 100f;
+        _brakeStrength *= 1000f;
+    }
     
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.centerOfMass = new Vector3(0, centerOfMassYOffset, 0);
+        rigidBody.centerOfMass = new Vector3(0, _centerOfMassYOffset, 0);
         inputs = GetComponent<InputController>();
 
-        sFrictionLeft = new WheelFrictionCurve[leftWheelColliders.Length];
-        sFrictionRight = new WheelFrictionCurve[rightWheelColliders.Length];
+        _sFrictionLeft = new WheelFrictionCurve[_leftWheelColliders.Length];
+        _sFrictionRight = new WheelFrictionCurve[_rightWheelColliders.Length];
 
-        for (int i = 0; i < leftWheelColliders.Length; i++)
+        for (int i = 0; i < _leftWheelColliders.Length; i++)
         {
-            sFrictionLeft[i] = leftWheelColliders[i].sidewaysFriction;
-            sFrictionLeft[i].stiffness = stillSidewaysFriction;
-            leftWheelColliders[i].sidewaysFriction = sFrictionLeft[i];
+            _sFrictionLeft[i] = _leftWheelColliders[i].sidewaysFriction;
+            _sFrictionLeft[i].stiffness = _stillSidewaysFriction;
+            _leftWheelColliders[i].sidewaysFriction = _sFrictionLeft[i];
         }
 
-        for (int i = 0; i < rightWheelColliders.Length; i++)
+        for (int i = 0; i < _rightWheelColliders.Length; i++)
         {
-            sFrictionRight[i] = rightWheelColliders[i].sidewaysFriction;
-            sFrictionRight[i].stiffness = stillSidewaysFriction;
-            rightWheelColliders[i].sidewaysFriction = sFrictionRight[i];
+            _sFrictionRight[i] = _rightWheelColliders[i].sidewaysFriction;
+            _sFrictionRight[i].stiffness = _stillSidewaysFriction;
+            _rightWheelColliders[i].sidewaysFriction = _sFrictionRight[i];
         }
-
-        turnTorque = turnTorque * 1000000f;
-        driveTorque = driveTorque * 100f;
-        brakeStrength = brakeStrength * 1000f;
     }
-
+    
     private void Update()
     {
         // Sets angular and km/h velocity values to variables
@@ -89,11 +99,11 @@ public class TankMovement : MonoBehaviour
     {
         // Gets the forward/backward velocity
         float velocityInDirection = Vector3.Dot(rigidBody.velocity, transform.forward);
-        float dragCoefficient = CalculateDragCoefficient(velocityInDirection, forwardForceCoefficient);
+        float dragCoefficient = CalculateDragCoefficient(velocityInDirection, _forwardForceCoefficient);
 
         // Gets the turning angular velocity
         float angularVelocityInDirection = Vector3.Dot(rigidBody.angularVelocity, transform.up);
-        float dragTurnCoefficient = CalculateDragCoefficient(angularVelocityInDirection, turningForceCoefficient);
+        float dragTurnCoefficient = CalculateDragCoefficient(angularVelocityInDirection, _turningForceCoefficient);
         ;
 
         float turnForwardVelocityCoefficient = 2 * dragCoefficient;
@@ -104,7 +114,7 @@ public class TankMovement : MonoBehaviour
             // Turns tank using turnTorque * dragTurnCoefficient, which is a scaled value from 0..1 depending on angular velocity
             // First part makes sure direction and rotation of turning is correct
             Vector3 turningTorqueValue = transform.up * (dragTurnCoefficient * turnForwardVelocityCoefficient *
-                turnTorque * (inputs.TurnInput * Time.fixedDeltaTime));
+                _turnTorque * (inputs.TurnInput * Time.fixedDeltaTime));
             if (inputs.DriveInput < 0)
             {
                 rigidBody.AddTorque(turningTorqueValue * -1f);
@@ -117,7 +127,7 @@ public class TankMovement : MonoBehaviour
             // For responsive feel, stops tank rotation when we do not want to turn, otherwise would continue turning 
             if (inputs.TurnInput == 0)
             {
-                rigidBody.AddTorque(-angularVelocityInDirection * Time.fixedDeltaTime * turnTorque * transform.up);
+                rigidBody.AddTorque(-angularVelocityInDirection * Time.fixedDeltaTime * _turnTorque * transform.up);
             }
 
             // If we switch from forwards to backwards, we want tank to move responsively instead of sliding
@@ -125,42 +135,42 @@ public class TankMovement : MonoBehaviour
             {
                 if (inputs.DriveInput < 0f && velocityInDirection > 0f)
                 {
-                    rigidBody.AddForce(2000f * driveTorque * Time.fixedDeltaTime * -velocityInDirection *
+                    rigidBody.AddForce(2000f * _driveTorque * Time.fixedDeltaTime * -velocityInDirection *
                         transform.forward);
                 }
                 else if (inputs.DriveInput > 0f && velocityInDirection < 0f)
                 {
-                    rigidBody.AddForce(2000f * driveTorque * Time.fixedDeltaTime * -velocityInDirection *
+                    rigidBody.AddForce(2000f * _driveTorque * Time.fixedDeltaTime * -velocityInDirection *
                         transform.forward);
                 }
 
                 // Moves tank using driveTorque * dragCoefficient, which is a scaled value from 0..1 depending on velocity
                 // Disable brakes first so we can move
                 SetBrakes(0);
-                SetLeftTrackTorque(inputs.DriveInput * driveTorque * dragCoefficient);
-                SetRightTrackTorque(inputs.DriveInput * driveTorque * dragCoefficient);
+                SetLeftTrackTorque(inputs.DriveInput * _driveTorque * dragCoefficient);
+                SetRightTrackTorque(inputs.DriveInput * _driveTorque * dragCoefficient);
             }
             else if (inputs.TurnInput != 0f)
             {
                 // Moves tank slightly forward if we are only turning, otherwise friction would not allow AddTorque to function properly
                 // Disable brakes (idk if necessary here)
                 SetBrakes(0);
-                SetLeftTrackTorque(0.01f * driveTorque);
-                SetRightTrackTorque(0.01f * driveTorque);
+                SetLeftTrackTorque(0.01f * _driveTorque);
+                SetRightTrackTorque(0.01f * _driveTorque);
 
                 // Stops tank if we stop wanting to move forwards/backwards instead of slowly coming to a stop like a car
-                rigidBody.AddForce(1000f * driveTorque * Time.fixedDeltaTime * -velocityInDirection *
+                rigidBody.AddForce(1000f * _driveTorque * Time.fixedDeltaTime * -velocityInDirection *
                     transform.forward);
             }
             else
             {
                 // Enable brakes so that we dont slide on a slope or a hill when still
-                SetBrakes(brakeStrength);
+                SetBrakes(_brakeStrength);
                 SetLeftTrackTorque(0f);
                 SetRightTrackTorque(0f);
 
                 // Stops tank if we stop wanting to move forwards/backwards instead of slowly coming to a stop like a car
-                rigidBody.AddForce(1000f * driveTorque * Time.fixedDeltaTime * -velocityInDirection *
+                rigidBody.AddForce(1000f * _driveTorque * Time.fixedDeltaTime * -velocityInDirection *
                     transform.forward);
             }
         }
@@ -182,8 +192,7 @@ public class TankMovement : MonoBehaviour
     {
         velocityInKMH = rigidBody.velocity.magnitude * 3.6f;
     }
-
-
+    
     // private void GetHeight()
     // {
     //     // How high off the ground are we
@@ -199,84 +208,83 @@ public class TankMovement : MonoBehaviour
 
     private void GetClimbAngle()
     {
-        curAngle = Vector3.Angle(Vector3.up, transform.up);
+        _curAngle = Vector3.Angle(Vector3.up, transform.up);
     }
-
-
+    
     private void SetLeftTrackTorque(float speed)
     {
-        for (int i = 0; i < leftWheelColliders.Length; i++)
+        for (int i = 0; i < _leftWheelColliders.Length; i++)
         {
             if (velocityInKMH < -0.25f)
             {
                 // Gives initial boost so that controls seem more responsive
-                leftWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
+                _leftWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
             }
             else
             {
-                leftWheelColliders[i].motorTorque = speed;
+                _leftWheelColliders[i].motorTorque = speed;
             }
         }
     }
 
     private void SetRightTrackTorque(float speed)
     {
-        for (int i = 0; i < rightWheelColliders.Length; i++)
+        for (int i = 0; i < _rightWheelColliders.Length; i++)
         {
             if (velocityInKMH < -0.25f)
             {
                 // Gives initial boost so that controls seem more responsive
-                rightWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
+                _rightWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
             }
             else
             {
-                rightWheelColliders[i].motorTorque = speed;
+                _rightWheelColliders[i].motorTorque = speed;
             }
         }
     }
 
     public void SetBrakes(float strength)
     {
-        for (int i = 0; i < leftWheelColliders.Length; i++)
+        for (int i = 0; i < _leftWheelColliders.Length; i++)
         {
-            leftWheelColliders[i].brakeTorque = strength;
+            _leftWheelColliders[i].brakeTorque = strength;
         }
 
-        for (int i = 0; i < rightWheelColliders.Length; i++)
+        for (int i = 0; i < _rightWheelColliders.Length; i++)
         {
-            rightWheelColliders[i].brakeTorque = strength;
+            _rightWheelColliders[i].brakeTorque = strength;
         }
     }
 
     private void SetWheelColliderFriction()
     {
         //If we are still or almost still reduce sideways friction
-        if (rigidBody.velocity.magnitude <= 1f || curAngle > 22f)
+        if (rigidBody.velocity.magnitude <= 1f || _curAngle > 22f)
         {
-            for (int i = 0; i < leftWheelColliders.Length; i++)
+            for (int i = 0; i < _leftWheelColliders.Length; i++)
             {
-                sFrictionLeft[i].stiffness = stillSidewaysFriction;
-                leftWheelColliders[i].sidewaysFriction = sFrictionLeft[i];
+                _sFrictionLeft[i].stiffness = _stillSidewaysFriction;
+                _leftWheelColliders[i].sidewaysFriction = _sFrictionLeft[i];
             }
 
-            for (int i = 0; i < rightWheelColliders.Length; i++)
+            for (int i = 0; i < _rightWheelColliders.Length; i++)
             {
-                sFrictionRight[i].stiffness = stillSidewaysFriction;
-                rightWheelColliders[i].sidewaysFriction = sFrictionRight[i];
+                _sFrictionRight[i].stiffness = _stillSidewaysFriction;
+                _rightWheelColliders[i].sidewaysFriction = _sFrictionRight[i];
             }
         }
         else
         {
-            for (int i = 0; i < leftWheelColliders.Length; i++)
+            for (int i = 0; i < _leftWheelColliders.Length; i++)
             {
-                sFrictionLeft[i].stiffness = movementSidewaysFriction;
-                leftWheelColliders[i].sidewaysFriction = sFrictionLeft[i];
+                _sFrictionLeft[i].stiffness = _movementSidewaysFriction;
+                _leftWheelColliders[i].sidewaysFriction = _sFrictionLeft[i];
             }
 
-            for (int i = 0; i < rightWheelColliders.Length; i++)
+            for (int i = 0; i < _rightWheelColliders.Length; i++)
             {
-                sFrictionRight[i].stiffness = movementSidewaysFriction;
-                rightWheelColliders[i].sidewaysFriction = sFrictionRight[i];
+                _sFrictionRight[i].stiffness = _movementSidewaysFriction;
+                _rightWheelColliders[i].sidewaysFriction = _sFrictionRight[i];
             }
         }
     }

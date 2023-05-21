@@ -6,12 +6,7 @@ public abstract class Bullet : PooledBehaviour
 {
     private float _damage;
     protected Rigidbody _rigidbody;
-
-    public abstract TurretType TurretType
-    {
-        get;
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         OnInteracted(other);
@@ -23,7 +18,6 @@ public abstract class Bullet : PooledBehaviour
         {
             damagable.TakeDamage(_damage);
         }
-        
     }
 
     public override void Prepare(PooledObjectType pooledType)

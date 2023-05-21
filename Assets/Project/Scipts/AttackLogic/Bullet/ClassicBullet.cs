@@ -17,13 +17,7 @@ public class ClassicBullet : Bullet
     private Vector3 _fireDirection;
     private float _cuuerntSpeed;
     
-
-    public override TurretType TurretType
-    {
-        get =>
-            TurretType.Classic;
-    }
-
+    
     public override void Setup(float damage)
     {
         base.Setup(damage);

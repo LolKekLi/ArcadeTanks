@@ -64,7 +64,6 @@ public class CameraController : MonoBehaviour
         ourCamera = gameObject.GetComponent<Camera>();
 
         var cameraData = ourCamera.GetUniversalAdditionalCameraData();
-        Debug.Log($"_uiSystem{_uiSystem}");
         cameraData.cameraStack.Add(_uiSystem.Camera);
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -75,8 +74,8 @@ public class CameraController : MonoBehaviour
         tankTransform = transform1;
         // sniperRig = vehicleManager.sniperModeRigTurretGameObject;
         // sniperRigGun = vehicleManager.sniperModeRigGunGameObject;
-        minGunAngle = turretMovementScript.minGunAngle_depression;
-        maxGunAngle = turretMovementScript.maxGunAngle_elevation;
+        minGunAngle = turretMovementScript.MinGunAngle_depression;
+        maxGunAngle = turretMovementScript.MaxGunAngle_elevation;
 
         transform.position = (tankTransform.position + -tankTransform.forward) + (Vector3.up * 2);
         transform.LookAt(tankTransform.position + (Vector3.up * Height));

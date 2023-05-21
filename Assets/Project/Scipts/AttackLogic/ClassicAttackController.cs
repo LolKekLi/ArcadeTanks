@@ -5,6 +5,7 @@ namespace Project
     public class ClassicAttackController : AttackControllerBase
     {
         private float _canFireTime;
+       
 
         private TankFireSettings.ClassTankFirePreset _currentFirePreset;
 
@@ -20,19 +21,24 @@ namespace Project
                 TurretType.Classic;
         }
 
-        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory)
+        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
+            float fireRange)
         {
-            base.Setup(fireSettings, firePosition, bulletFactory);
+            base.Setup(fireSettings, firePosition, bulletFactory, fireRange);
+          
             _currentFirePreset = fireSettings.ClassicFirePresets;
         }
 
         public override void Fire()
         {
+            
+
             _canFireTime = Time.time + _currentFirePreset.ReloadTime;
 
             var _bullet = _bulletFactory.GetBullet(Type);
 
             _bullet.transform.position = _firePosition.position;
+            
             _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
             _bullet.Setup(_currentFirePreset.Damage);
             _bullet.Fire(_firePosition.forward);
@@ -40,7 +46,6 @@ namespace Project
 
         public override void StopFire()
         {
-       
         }
     }
 }

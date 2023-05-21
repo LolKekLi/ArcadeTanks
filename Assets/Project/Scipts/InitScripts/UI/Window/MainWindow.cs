@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Project.Meta;
+using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,29 +11,49 @@ namespace Project.UI
         [SerializeField]
         private Button _startButton = null;
 
+        [SerializeField]
+        private UIBodySelector _bodySelector;
+
+        [SerializeField]
+        private UITurretSelector _turretSelector;
+
         private LevelFlowController _levelFlowController = null;
-        
+        private IUser _user;
+        private User user1;
+
         public override bool IsPopup
         {
-            get => false;
+            get =>
+                false;
         }
 
         [Inject]
-        private void Construct(LevelFlowController levelFlowController)
+        private void Construct(LevelFlowController levelFlowController, IUser user, User users)
         {
+            user1 = users;
+            _user = user;
             _levelFlowController = levelFlowController;
         }
-        
+      
         protected override void Start()
         {
             base.Start();
-            
+
             _startButton.onClick.AddListener(OnStartButtonClicked);
+            _bodySelector.CurrentType.Subscribe(type =>
+            {
+                _user.SetBodyType(type);
+            });
+
+            _turretSelector.CurrentType.Subscribe(type =>
+            {
+                _user.SetTurretType(type);
+            });
         }
         
         private void OnStartButtonClicked()
         {
-            _levelFlowController.Start();
+            _levelFlowController.Load();
         }
     }
 }

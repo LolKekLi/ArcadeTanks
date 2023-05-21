@@ -38,6 +38,14 @@ namespace Project.Settings
         [SerializeField, Header("Main Group")]
         private string _tutorialSceneName = string.Empty;
 
+        [field: SerializeField, Space]
+        public string HubScene
+        {
+            get;
+            private set;
+        }
+        
+
         [SerializeField]
         private string[] _levels = null;
         

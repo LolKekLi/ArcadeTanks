@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 7552137636268246907}
   - component: {fileID: 7552137636268246904}
   m_Layer: 0
-  m_Name: ClassicBullet
+  m_Name: TwoGunBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

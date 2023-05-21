@@ -7,8 +7,8 @@
             return type switch
             {
                 TurretType.Classic => new ClassicAttackController(),
-                TurretType.TwoGuns => new ClassicAttackController(),
-                TurretType.Fire => new ClassicAttackController(),
+                TurretType.TwoGuns => new TwoGunAttackController(),
+                TurretType.Fire => new FireAttackController(),
                 _ => null,
             };
         }

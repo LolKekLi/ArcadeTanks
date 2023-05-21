@@ -80,7 +80,16 @@ namespace Project
             
             callback?.Invoke();
             
+            _uiSystem.ShowWindow<GameWindow>();
+        }
+
+        public async UniTask LoadHub()
+        {
+            await SceneManager.LoadSceneAsync(_levelSettings.HubScene);
+            
             _uiSystem.ShowWindow<MainWindow>();
+
+            Loaded?.Invoke();
         }
     }
 }

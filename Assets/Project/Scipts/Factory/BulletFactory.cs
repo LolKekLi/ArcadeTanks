@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Project;
-using Project.Meta;
-using Project.Scipts.TankVechileController;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +9,8 @@ public class BulletFactory : ZenjectManager<BulletFactory>
     private readonly Dictionary<TurretType, int> MaxBulletCount = new Dictionary<TurretType, int>()
     {
         { TurretType.Classic, 50 },
+        { TurretType.Fire, 5},
+        { TurretType.TwoGuns, 50},
     };
 
     [Inject]

@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/InitialPackage-master-master/Assets/Project/Scenes/UICommon.unity
     guid: c956369e2966a45a6a16578db9289e8c
   - enabled: 1
+    path: Assets/Project/Scenes/HunScene.unity
+    guid: 0bcb5dbce5f6e10459f3973bb1a35f4f
+  - enabled: 1
     path: Assets/Project/Scenes/DevTestScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

@@ -1,4 +1,4 @@
-﻿namespace Project.Scipts.TankVechileController
+﻿namespace Project
 {
     public enum BodyType
     {
