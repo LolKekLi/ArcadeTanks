@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d972a0b2c384e7784b97c94eaca75c, type: 3}
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
-  _isTestSceneEnabled: 0
-  _testSceneName: DevTestScene
+  _isTestSceneEnabled: 1
+  _testSceneName: Level_1
   _tutorialSceneName: DevTestScene
   <HubScene>k__BackingField: HunScene
   _levels:

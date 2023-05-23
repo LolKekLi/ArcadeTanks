@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5185972262634398804}
+  - component: {fileID: 1178253657522571043}
+  - component: {fileID: 2931358662587202519}
+  - component: {fileID: 8015220884619203382}
   m_Layer: 0
   m_Name: RoadTile
-  m_TagString: Untagged
+  m_TagString: earth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,6 +36,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1178253657522571043
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303747745846937930}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.057405, y: 0.1351214, z: 20.109158}
+  m_Center: {x: 0.4000001, y: -0.28, z: 0.31295824}
+--- !u!65 &2931358662587202519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303747745846937930}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.419549, y: 0.5131093, z: 20.097075}
+  m_Center: {x: 5.097811, y: -0.24344535, z: 0.32815647}
+--- !u!65 &8015220884619203382
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303747745846937930}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.419549, y: 0.5131093, z: 20.097075}
+  m_Center: {x: -4.28, y: -0.24344535, z: 0.32815647}
 --- !u!1001 &3043653084397098982
 PrefabInstance:
   m_ObjectHideFlags: 0
