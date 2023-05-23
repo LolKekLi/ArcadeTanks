@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using ModestTree;
 using Project.Meta;
 using UniRx;
 using UnityEngine;
@@ -11,24 +9,7 @@ namespace Project.UI
 {
     public abstract class UISelector<T> : MonoBehaviour where T : Enum
     {
-        [Serializable]
-        public class SelectorPreset
-        {
-            [field: SerializeField]
-            public T Type
-            {
-                get;
-                private set;
-            }
-
-            [field: SerializeField]
-            public Sprite Icon
-            {
-                get;
-                private set;
-            }
-        }
-
+        
         [SerializeField]
         private Button _leftButton;
 
@@ -40,15 +21,15 @@ namespace Project.UI
 
         [SerializeField]
         private Image _icon;
-
-        [SerializeField]
-        protected SelectorPreset[] _selectorPresets;
-
+        
         protected ReactiveProperty<int> _index = new ReactiveProperty<int>(0);
         protected ReactiveProperty<T> _currentType = new ReactiveProperty<T>();
-
+        protected UIIconSettings.UIIconPreset<T>[] _selectorPresets;
+        
         [Inject]
         protected IUser _user;
+        [Inject]
+        protected UIIconSettings _uiIconSettings;
 
         public IReadOnlyReactiveProperty<T> CurrentType
         {

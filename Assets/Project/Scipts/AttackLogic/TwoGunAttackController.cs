@@ -51,7 +51,6 @@ namespace Project
 
             _bullet.transform.position = _firePosition.position +
                 _firePosition.TransformDirection(new Vector3(_fireRange, 0)) * (_isRight ? 1 : -1);
-            ;
             _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
             _bullet.Setup(_currentFirePreset.Damage);
             _bullet.Fire(_firePosition.forward);
@@ -63,7 +62,7 @@ namespace Project
                 time =>
                 {
                     _delay = Mathf.Lerp(_currentFirePreset.FireDelay.Max, _currentFirePreset.FireDelay.Min, time);
-                }, _currentFirePreset.OverclockingTime, token: refreshToken);
+                }, _currentFirePreset.OverclockingTime, _currentFirePreset.OverclockingCurve, token: refreshToken);
         }
 
         public override void StopFire()

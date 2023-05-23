@@ -19,7 +19,7 @@ namespace Project.UI
 
         private LevelFlowController _levelFlowController = null;
         private IUser _user;
-        private User user1;
+        
 
         public override bool IsPopup
         {
@@ -28,9 +28,8 @@ namespace Project.UI
         }
 
         [Inject]
-        private void Construct(LevelFlowController levelFlowController, IUser user, User users)
+        private void Construct(LevelFlowController levelFlowController, IUser user)
         {
-            user1 = users;
             _user = user;
             _levelFlowController = levelFlowController;
         }

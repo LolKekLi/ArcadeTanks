@@ -9,6 +9,8 @@ namespace Project
     {
         [SerializeField]
         private UISystem _uiSystem = null;
+        [SerializeField]
+        private GameWindow _gameWindow;
         
         [SerializeField]
         private JoystickController _joystickController = null;
@@ -30,6 +32,7 @@ namespace Project
         {
             Container.ParentContainers[0].Bind<UISystem>().FromInstance(_uiSystem).AsCached();
             Container.ParentContainers[0].Bind<JoystickController>().FromInstance(_joystickController).AsCached();
+            Container.ParentContainers[0].Bind<GameWindow>().FromInstance(_gameWindow).AsCached();
             Container.ParentContainers[0].Inject(_levelFlowController);
             
 #if FORCE_DEBUG

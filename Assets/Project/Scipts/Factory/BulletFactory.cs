@@ -29,13 +29,12 @@ public class BulletFactory : ZenjectManager<BulletFactory>
     
     private void OnEnable()
     {
-        
         _levelFlowController.Loaded += LevelFlowController_Loaded;
     }
 
     private void OnDisable()
     {
-        _levelFlowController.Loaded += LevelFlowController_Loaded;
+        _levelFlowController.Loaded -= LevelFlowController_Loaded;
     }
 
     public Bullet GetBullet(TurretType turretType)
@@ -60,6 +59,7 @@ public class BulletFactory : ZenjectManager<BulletFactory>
         {
             _pooledBuulets = new Dictionary<TurretType, Bullet[]>();
         }
+        
         foreach (var _pooledBullet in _pooledBuulets)
         {
             _pooledBullet.Value.Do(x => x.Free());

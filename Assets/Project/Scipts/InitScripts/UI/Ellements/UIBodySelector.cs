@@ -8,6 +8,7 @@ namespace Project.UI
         protected override void Prepare()
         {
             _currentType.Value = _user.BodyType.Value;
+            _selectorPresets = _uiIconSettings.BodyIconPresets;
         }
 
         protected override void Start()

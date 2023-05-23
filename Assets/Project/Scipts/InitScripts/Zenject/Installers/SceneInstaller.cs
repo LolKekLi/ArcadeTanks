@@ -1,4 +1,5 @@
 ﻿using Project;
+using Project.UI;
 using UnityEngine;
 using Zenject;
 
@@ -12,6 +13,9 @@ public class SceneInstaller : MonoInstaller
 
     [Inject]
     private BulletFactory _bulletFactory;
+
+    [Inject]
+    private GameWindow _gameWindow;
     
     public override void InstallBindings()
     {
@@ -21,6 +25,7 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<CameraController>().FromInstance(_cameraController).AsCached();
         Container.Bind<AttackControllerFactory>().FromInstance(new AttackControllerFactory());
         Container.Inject(_bulletFactory);
+        Container.Inject(_gameWindow);
     }
 
     private LevelData SetupLevelData()

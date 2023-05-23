@@ -8,6 +8,7 @@ namespace Project.UI
         protected override void Prepare()
         {
             _currentType.Value = _user.TurretType.Value;
+            _selectorPresets = _uiIconSettings.TurretIconPresets;
         }
 
         protected override void Start()

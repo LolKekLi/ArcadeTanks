@@ -27,8 +27,9 @@ namespace Project
             _subscribersContainer.FreeSubscribers();
         }
         
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             Setup(user.TurretType.Value, user.BodyType.Value);
         }
 

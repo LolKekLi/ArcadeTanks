@@ -51,7 +51,7 @@ public class ClassicBullet : Bullet
         
         base.OnInteracted(damagable);
 
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        await UniTask.Delay(TimeSpan.FromSeconds(_onInteractedFX.main.duration));
         
         Free();
     }

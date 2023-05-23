@@ -26,10 +26,43 @@ MonoBehaviour:
     <FireDelay>k__BackingField: 0.1
   <TwoGunFirePreset>k__BackingField:
     <ReloadTime>k__BackingField: 0
-    <Damage>k__BackingField: 0
+    <Damage>k__BackingField: 0.2
     <Bullet>k__BackingField: {fileID: 7552137636268246904, guid: 9f0fe82d37aa6f8439a3b57ae89b5142,
       type: 3}
     <FireDelay>k__BackingField:
       _min: 0.1
       _max: 4
     <OverclockingTime>k__BackingField: 5
+    <OverclockingCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3189239
+        value: 0.6666553
+        inSlope: 1.4026072
+        outSlope: 0.88169044
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.08021152
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.31781185
+        outSlope: 0.31781185
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.09385608
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

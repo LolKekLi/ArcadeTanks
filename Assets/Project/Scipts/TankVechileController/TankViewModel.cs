@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Project
 {
@@ -68,6 +71,13 @@ namespace Project
                 get;
                 private set;
             }
+
+            [field: SerializeField]
+            public ParticleSystem[] OnDiedParticles
+            {
+                get;
+                private set;
+            }
         }
 
         [SerializeField]
@@ -75,9 +85,6 @@ namespace Project
 
         [SerializeField]
         private BodyPreset[] _bodyPresets;
-
-        private BodyPreset _bodyPreset;
-        private TurretPreset _currentTurretPreset;
         
         [field: SerializeField]
         public GameObject TurretGameObject
@@ -85,6 +92,25 @@ namespace Project
             get;
             private set;
         }
+
+        [SerializeField]
+        private Rigidbody _turretRb;
+
+        [SerializeField]
+        private Collider _turretColleder;
+
+        [SerializeField]
+        private float _turretPushForce;
+
+        [SerializeField]
+        private float _pushRange;
+
+        [SerializeField]
+        private float _torqueRange;
+        
+        
+        private BodyPreset _bodyPreset;
+        private TurretPreset _currentTurretPreset;
 
         public GameObject FirePosition
         {
@@ -98,13 +124,29 @@ namespace Project
                 _currentTurretPreset.FirePositionRange;
         }
 
+        protected virtual void Awake()
+        {
+            foreach (var preset in _bodyPresets)
+            {
+                preset.OnDiedParticles.Do(x=>x.gameObject.SetActive(false));
+            }
+        }
+
         public void Setup(TurretType turretType, BodyType bodyType)
         {
             SetupBody(bodyType);
             SetupTurret(turretType);
+
+            if (_turretRb)
+            {
+                _turretRb.isKinematic = true;
+                _turretRb.useGravity = false;
+                _turretColleder.enabled = false;
+                _turretRb.velocity = Vector3.zero;
+            }
         }
 
-        protected void SetupBody(BodyType bodyType)
+        private void SetupBody(BodyType bodyType)
         {
             _bodyPresets.Do(x => x.Body.SetActive(false));
 
@@ -115,7 +157,7 @@ namespace Project
             }
         }
 
-        protected void SetupTurret(TurretType turretType)
+        private void SetupTurret(TurretType turretType)
         {
             _turretPresets.Do(x => x.Turret.SetActive(false));
             _currentTurretPreset = _turretPresets.FirstOrDefault(x => x.TurretType == turretType);
@@ -126,18 +168,42 @@ namespace Project
                 if (_bodyPreset.TurretTransform != null)
                 {
                     turret.transform.position = _bodyPreset.TurretTransform.position;
-                    Debug.Log(turret.transform.position);
                 }
-               
+
                 turret.SetActive(true);
             }
         }
-        
+
+        public void OnDied()
+        {
+            _turretRb.useGravity = true;
+            _turretRb.isKinematic = false;
+            _turretColleder.enabled = true;
+            _turretRb.velocity = Vector3.zero;
+
+            var pushDirection = TurretGameObject.transform.up;
+            pushDirection += new Vector3(Random.Range(-_pushRange, _pushRange), 0,
+                Random.Range(-_pushRange, _pushRange));
+
+            pushDirection = pushDirection.normalized;
+            _turretRb.AddForce(pushDirection * _turretPushForce, ForceMode.Impulse);
+
+            float torque = Random.Range(_torqueRange, _torqueRange);
+            Vector3 torqueDirection = Random.insideUnitSphere.normalized;
+            _turretRb.AddTorque(torqueDirection * torque, ForceMode.Impulse);
+            
+            _bodyPreset.OnDiedParticles.Do(x=>
+            {
+                x.gameObject.SetActive(true);
+                x.Play();
+            });
+        }
+
 #region Debug
 
 #if UNITY_EDITOR
-        
-        public void DebugSetupBody( BodyType bodyType)
+
+        public void DebugSetupBody(BodyType bodyType)
         {
             SetupBody(bodyType);
         }
@@ -146,10 +212,10 @@ namespace Project
         {
             SetupTurret(turretType);
         }
-        
+
         protected virtual void OnDrawGizmos()
         {
-            if (_currentTurretPreset == null)
+            if (_currentTurretPreset == null || !_currentTurretPreset.FirePosition)
             {
                 return;
             }

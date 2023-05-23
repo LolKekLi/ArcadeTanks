@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d95b37dea9218ba4fae604daef80f125, type: 3}
+  m_Name: UIIconSettings
+  m_EditorClassIdentifier: 
+  <TurretIconPresets>k__BackingField:
+  - <Type>k__BackingField: 0
+    <Icon>k__BackingField: {fileID: 21300000, guid: fdd7c0d702a2d7d43adb596a6ccf3241,
+      type: 3}
+  - <Type>k__BackingField: 2
+    <Icon>k__BackingField: {fileID: 21300000, guid: 573b87bf596a73443b9291bcdbf2b3e4,
+      type: 3}
+  - <Type>k__BackingField: 1
+    <Icon>k__BackingField: {fileID: 21300000, guid: f49e7de9321317f49871e0b5f6a504cc,
+      type: 3}
+  <BodyIconPresets>k__BackingField:
+  - <Type>k__BackingField: 0
+    <Icon>k__BackingField: {fileID: 21300000, guid: 0a5d9568fb7a9e040b30b6d7e68a616a,
+      type: 3}
+  - <Type>k__BackingField: 1
+    <Icon>k__BackingField: {fileID: 21300000, guid: 3a0b2e51f79a79b40b279645c10e808b,
+      type: 3}
+  - <Type>k__BackingField: 2
+    <Icon>k__BackingField: {fileID: 21300000, guid: cb048d5f245d6014f883a9ac849ad3d0,
+      type: 3}

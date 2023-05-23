@@ -1,11 +1,15 @@
-﻿using Project.Meta;
+﻿using System;
+using Project.Meta;
 using UnityEngine;
 using Zenject;
 
 namespace Project
 {
-    public class TankController : MonoBehaviour, ITank
+    public class TankController : MonoBehaviour, ITank, IDamagable
     {
+        public static event Action Fired = delegate { }; 
+        public static event Action<float> Damaged = delegate {  };
+
         [SerializeField]
         private TurretType _currentTurretType;
 
@@ -21,30 +25,47 @@ namespace Project
         [SerializeField]
         private TankViewModel _tankViewModel;
 
+        private float _currentHp;
+        
         private AttackControllerBase _attackController;
 
         [Inject]
         private CameraController _cameraController;
+
         [Inject]
         private AttackControllerFactory _attackControllerFactory;
+
         [Inject]
         private TankFireSettings _tankFireSettings;
+
         [Inject]
         private BulletFactory _bulletFactory;
+
         [Inject]
         private IUser _user;
+
         [Inject]
         private TankBodySettings _tankBodySettings;
-
-        private void Awake()
+        
+        public float HP
         {
-            Setup(_user.TurretType.Value, _user.BodyType.Value);
+            get;
+        }
+
+        public bool IsDied
+        {
+            get;
         }
 
         public TurretType Type
         {
             get =>
                 _currentTurretType;
+        }
+        
+        private void Awake()
+        {
+            Setup(_user.TurretType.Value, _user.BodyType.Value);
         }
 
         private void Setup(TurretType turretType, BodyType bodyType)
@@ -61,18 +82,42 @@ namespace Project
             _attackController = _attackControllerFactory.GetAttackController(turretType);
             _attackController.Setup(_tankFireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
                 _tankViewModel.FireRange);
+
+            _currentHp = tankMovementPreset.HP;
         }
 
         private void Update()
         {
             if (Input.GetMouseButton(0) && _attackController.CanFire)
             {
+                Fired();
                 _attackController.Fire();
             }
             else if (Input.GetMouseButtonUp(0))
             {
                 _attackController.StopFire();
             }
+
+#if UNITY_EDITOR
+            DebugUpdate();
+#endif
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            _currentHp -= damage;
+
+            Damaged(_currentHp);
+            
+            if (_currentHp <= 0)
+            {
+                Died();
+            }
+        }
+
+        public void Died()
+        {
+            _tankViewModel.OnDied();
         }
 
 #if UNITY_EDITOR
@@ -82,10 +127,17 @@ namespace Project
             {
                 _tankViewModel.DebugSetupBody(_currentBodyType);
                 _tankViewModel.DebugSetupTurret(_currentTurretType);
-
             }
         }
         
+        private void DebugUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                TakeDamage(1);
+            }
+        }
 #endif
+      
     }
 }

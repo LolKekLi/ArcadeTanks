@@ -13,5 +13,8 @@ public class HubCameraController : MonoBehaviour
         var ourCamera = gameObject.GetComponent<Camera>();
         var cameraData = ourCamera.GetUniversalAdditionalCameraData();
         cameraData.cameraStack.Add(_uiSystem.Camera);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

@@ -69,6 +69,13 @@ public class TankFireSettings : ScriptableObject
             get;
             private set;
         }
+
+        [field: SerializeField]
+        public AnimationCurve OverclockingCurve
+        {
+            get;
+            private set;
+        }
     }
 
 
@@ -107,4 +114,6 @@ public class TankFireSettings : ScriptableObject
                 return null;
         }
     }
+    
+    
 }
