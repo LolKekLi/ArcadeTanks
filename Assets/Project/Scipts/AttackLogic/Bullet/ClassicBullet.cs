@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Project;
 using UnityEngine;
 
 public class ClassicBullet : Bullet
@@ -13,6 +12,9 @@ public class ClassicBullet : Bullet
 
     [SerializeField]
     private ParticleSystem _onInteractedFX;
+
+    [SerializeField]
+    private TrailRenderer _trailRenderer;
 
     private Vector3 _fireDirection;
     private float _cuuerntSpeed;
@@ -29,6 +31,16 @@ public class ClassicBullet : Bullet
     {
         var targetPosition = transform.position + _fireDirection * (_cuuerntSpeed * Time.deltaTime);
         _rigidbody.MovePosition(targetPosition);
+    }
+
+    public override void SpawnFromPool()
+    {
+        if (_trailRenderer)
+        {
+            _trailRenderer.Clear();
+        }
+        
+        base.SpawnFromPool();
     }
 
     protected override void ReturnToPool()

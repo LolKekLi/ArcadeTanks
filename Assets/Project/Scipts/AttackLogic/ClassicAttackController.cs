@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Project
@@ -21,18 +22,22 @@ namespace Project
                 TurretType.Classic;
         }
 
-        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
-            float fireRange)
+        public override bool IsOverheat
         {
-            base.Setup(fireSettings, firePosition, bulletFactory, fireRange);
+            get => false;
+        }
+
+        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
+            float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
+            AudioManager audioManager)
+        {
+            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager);
           
             _currentFirePreset = fireSettings.ClassicFirePresets;
         }
 
         public override void Fire()
         {
-            
-
             _canFireTime = Time.time + _currentFirePreset.ReloadTime;
 
             var _bullet = _bulletFactory.GetBullet(Type);
@@ -42,9 +47,14 @@ namespace Project
             _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
             _bullet.Setup(_currentFirePreset.Damage);
             _bullet.Fire(_firePosition.forward);
+            
+            _onFireParticle.Play();
+            _audioManager?.Play2DSound(_fireSoundType);
         }
 
-        public override void StopFire()
+      
+
+        public override void StopFire(bool isOverhead)
         {
         }
     }

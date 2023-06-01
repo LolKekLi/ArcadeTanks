@@ -11,9 +11,6 @@ namespace Project
     {
         private const string MainUI = "UICommon";
         
-        [SerializeField, Header("Loading")]
-        private SlicedFilledImage _loadingProgress = null;
-
         [SerializeField]
         private CanvasGroup[] _canvasGroups = null;
 
@@ -51,32 +48,25 @@ namespace Project
             var uiWaiter = SceneManager.LoadSceneAsync(MainUI);
             float time = 0f;
 
-            void updateLoadingProgress()
-            {
-                _loadingProgress.fillAmount = Mathf.Clamp(time / _loadingSettings.LoadingTime, 0, 1);
-            }
-            
+           
             while (uiWaiter.progress < 1)
             {
-                updateLoadingProgress();
                 
                 await UniTask.Yield();
 
                 time += Time.deltaTime;
             }
             
-            var levelWaiter = _levelFlowController.LoadHub();
+            var levelWaiter = _levelFlowController.LoadHub(false);
 
             while (levelWaiter.Status == UniTaskStatus.Pending || time < _loadingSettings.LoadingTime)
             {
-                _loadingProgress.fillAmount = time / _loadingSettings.LoadingTime;
                 
                 await UniTask.Yield();
 
                 time += Time.deltaTime;
             }
 
-            _loadingProgress.fillAmount = 1f;
         }
         
         private async UniTask FadeAsync()

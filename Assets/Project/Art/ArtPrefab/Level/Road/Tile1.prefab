@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 864578204029407940}
   m_Layer: 0
   m_Name: Tile1
-  m_TagString: Untagged
+  m_TagString: earth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1084,6 +1084,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ground_Dirt (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1679,6 +1683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ground_Dirt (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1951,6 +1959,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ground_Dirt (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2021,6 +2033,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
       propertyPath: m_Name
       value: ground_Dirt (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c635baeb0168dde44a142ef5ad8f8725, type: 3}
       propertyPath: m_RootOrder

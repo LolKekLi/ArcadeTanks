@@ -271,8 +271,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15147, y: 0.15147, z: 0.24738082}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.15147, y: 0.91813254, z: 0.24738082}
+  m_Center: {x: 5.0071506e-14, y: -0.38333148, z: -4.584896e-14}
 --- !u!54 &7552137636268246907
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -306,6 +306,7 @@ MonoBehaviour:
   _speed: 50
   _renderer: {fileID: 7552137635111164800}
   _onInteractedFX: {fileID: 3735734538464883531}
+  _trailRenderer: {fileID: 1956192315116975923}
 --- !u!1001 &9074942537787146167
 PrefabInstance:
   m_ObjectHideFlags: 0

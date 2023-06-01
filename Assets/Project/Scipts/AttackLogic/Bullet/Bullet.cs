@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(Collider))]
 public abstract class Bullet : PooledBehaviour
 {
-    private float _damage;
+    protected float _damage;
     protected Rigidbody _rigidbody;
     private Collider _collider;
 
@@ -16,7 +16,12 @@ public abstract class Bullet : PooledBehaviour
     protected virtual void OnInteracted(Collider other)
     {
         _collider.enabled = false;
-        
+
+        if (other.TryGetComponent(out Rigidbody rb))
+        {
+            rb.AddForce((transform.position - rb.transform.position).ChangeY(0).normalized * 10, ForceMode.Impulse);
+        }
+
         if (other.TryGetComponent(out IDamagable damagable))
         {
             if (!damagable.IsDied)

@@ -17,16 +17,23 @@ namespace Project.UI
 
         public abstract void OnFire();
 
-        protected void FillReloadImage(float fillTime, float targetValue, CancellationToken cancellationToken)
+        protected async void FillReloadImage(float fillTime, float targetValue, CancellationToken cancellationToken, Action callback = null)
         {
             try
             {
                 var startValue = _reloadImage.fillAmount;
-                UniTaskExtensions.Lerp(time => { _reloadImage.fillAmount = Mathf.Lerp(startValue, targetValue, time); },
+                
+                await UniTaskExtensions.Lerp(time =>
+                    {
+                        _reloadImage.fillAmount = Mathf.Lerp(startValue, targetValue, time);
+                    },
                     fillTime, token: cancellationToken);
+                
+                callback?.Invoke();
             }
             catch (OperationCanceledException e)
             {
+                callback?.Invoke();
             }
         }
 

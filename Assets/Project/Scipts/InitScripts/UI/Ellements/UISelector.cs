@@ -57,7 +57,7 @@ namespace Project.UI
                 {
                     _index.Value = indexValue;
                 }
-            });
+            }, SoundType.Click);
 
             _rightButton.onClick.AddListener(() =>
             {
@@ -72,7 +72,7 @@ namespace Project.UI
                 {
                     _index.Value = indexValue;
                 }
-            });
+            }, SoundType.Click);
             
             _index.Subscribe(index =>
             {

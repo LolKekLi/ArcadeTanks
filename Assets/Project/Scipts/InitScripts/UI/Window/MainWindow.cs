@@ -1,4 +1,5 @@
-﻿using Project.Meta;
+﻿using Cysharp.Threading.Tasks;
+using Project.Meta;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,8 @@ namespace Project.UI
 
         private LevelFlowController _levelFlowController = null;
         private IUser _user;
-        
+        private AudioManager _audioManager;
+
 
         public override bool IsPopup
         {
@@ -28,8 +30,9 @@ namespace Project.UI
         }
 
         [Inject]
-        private void Construct(LevelFlowController levelFlowController, IUser user)
+        private void Construct(LevelFlowController levelFlowController, IUser user, AudioManager audioManager)
         {
+            _audioManager = audioManager;
             _user = user;
             _levelFlowController = levelFlowController;
         }
@@ -38,7 +41,8 @@ namespace Project.UI
         {
             base.Start();
 
-            _startButton.onClick.AddListener(OnStartButtonClicked);
+            _startButton.onClick.AddListener(OnStartButtonClicked, SoundType.Click)
+                ;
             _bodySelector.CurrentType.Subscribe(type =>
             {
                 _user.SetBodyType(type);
@@ -49,7 +53,21 @@ namespace Project.UI
                 _user.SetTurretType(type);
             });
         }
-        
+
+        protected override void OnShow()
+        {
+            base.OnShow();
+            
+            _audioManager.PlayLoopedSound(SoundType.HubScene, Vector3.zero, false);
+        }
+
+        protected override UniTask OnHide(bool isAnimationNeeded)
+        {
+            _audioManager.StopLoopedSound(SoundType.HubScene, false);
+            
+            return base.OnHide(isAnimationNeeded);
+        }
+
         private void OnStartButtonClicked()
         {
             _levelFlowController.Load();

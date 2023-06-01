@@ -3,18 +3,19 @@ using System;
 using Project;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof( Rigidbody), typeof(InputController))]
+[RequireComponent(typeof(Rigidbody), typeof(InputController))]
 public class TankMovement : MonoBehaviour
 {
     [SerializeField]
     private GrodedChecker _grodedChecker = null;
-    
+
     [FormerlySerializedAs("leftWheelColliders")]
     [Header("Wheel Colliders")]
     public WheelCollider[] _leftWheelColliders;
+
     [FormerlySerializedAs("rightWheelColliders")]
     public WheelCollider[] _rightWheelColliders;
-    
+
     private float _turnTorque = 1f;
 
     private float _driveTorque = 2f;
@@ -25,16 +26,22 @@ public class TankMovement : MonoBehaviour
     private float _stillSidewaysFriction = 0.8f;
     private float _centerOfMassYOffset = -1.0f;
     private float _curAngle;
+
+    private bool _isDied;
+    private float _speedCoef;
     
     private WheelFrictionCurve[] _sFrictionLeft;
     private WheelFrictionCurve[] _sFrictionRight;
-    
+
     private Rigidbody rigidBody;
     private InputController inputs;
 
-  
-    [SerializeField]
-    private float velocityInKMH;
+    [field: SerializeField]
+    public float VelocityInKMH
+    {
+        get;
+        private set;
+    }
     
     public void Setup(TankBodySettings.TankMovementPreset preset)
     {
@@ -46,12 +53,12 @@ public class TankMovement : MonoBehaviour
         _movementSidewaysFriction = preset.MovementSidewaysFriction;
         _stillSidewaysFriction = preset.StillSidewaysFriction;
         _centerOfMassYOffset = preset.CenterOfMassYOffset;
-        
+
         _turnTorque *= 1000000f;
         _driveTorque *= 100f;
         _brakeStrength *= 1000f;
     }
-    
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -84,6 +91,7 @@ public class TankMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         // Physically moves the tank
         MoveTank();
         // Get our current climb angle
@@ -99,11 +107,14 @@ public class TankMovement : MonoBehaviour
     {
         // Gets the forward/backward velocity
         float velocityInDirection = Vector3.Dot(rigidBody.velocity, transform.forward);
-        float dragCoefficient = CalculateDragCoefficient(velocityInDirection, _forwardForceCoefficient);
+        float dragCoefficient =
+            CalculateDragCoefficient(velocityInDirection, _forwardForceCoefficient * (_speedCoef > 0 ? 2 : 1));
 
         // Gets the turning angular velocity
         float angularVelocityInDirection = Vector3.Dot(rigidBody.angularVelocity, transform.up);
-        float dragTurnCoefficient = CalculateDragCoefficient(angularVelocityInDirection, _turningForceCoefficient);
+
+        float dragTurnCoefficient = CalculateDragCoefficient(angularVelocityInDirection,
+            _turningForceCoefficient * (_speedCoef > 0 ? 2 : 1));
         ;
 
         float turnForwardVelocityCoefficient = 2 * dragCoefficient;
@@ -190,9 +201,9 @@ public class TankMovement : MonoBehaviour
 
     private void GetVelocities()
     {
-        velocityInKMH = rigidBody.velocity.magnitude * 3.6f;
+        VelocityInKMH = rigidBody.velocity.magnitude * 3.6f;
     }
-    
+
     // private void GetHeight()
     // {
     //     // How high off the ground are we
@@ -210,12 +221,12 @@ public class TankMovement : MonoBehaviour
     {
         _curAngle = Vector3.Angle(Vector3.up, transform.up);
     }
-    
+
     private void SetLeftTrackTorque(float speed)
     {
         for (int i = 0; i < _leftWheelColliders.Length; i++)
         {
-            if (velocityInKMH < -0.25f)
+            if (VelocityInKMH < -0.25f)
             {
                 // Gives initial boost so that controls seem more responsive
                 _leftWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
@@ -231,7 +242,7 @@ public class TankMovement : MonoBehaviour
     {
         for (int i = 0; i < _rightWheelColliders.Length; i++)
         {
-            if (velocityInKMH < -0.25f)
+            if (VelocityInKMH < -0.25f)
             {
                 // Gives initial boost so that controls seem more responsive
                 _rightWheelColliders[i].motorTorque = inputs.DriveInput < 0f ? speed * 20f : speed * 5f;
@@ -288,4 +299,10 @@ public class TankMovement : MonoBehaviour
             }
         }
     }
+
+    public void ChangeSpeed(float presetValue)
+    {
+        _speedCoef = presetValue;
+    }
+    
 }

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
   _isTestSceneEnabled: 1
-  _testSceneName: Level_1
+  _testSceneName: DevTestScene
   _tutorialSceneName: DevTestScene
   <HubScene>k__BackingField: HunScene
   _levels:
-  - DevTestScene
+  - Level_1
   _loopedLevels:
   - DevTestScene
   _coinPresets:

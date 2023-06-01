@@ -9,7 +9,8 @@ namespace Project
     {
         private float _nextFireTime;
         private float _reloadedTime;
-        
+        private bool _isOverheat;
+
         private TankFireSettings.FireTankFirePreset _currentFirePreset;
         private Bullet _bullet;
         private CancellationTokenSource _flameToken;
@@ -20,22 +21,35 @@ namespace Project
                 TurretType.Fire;
         }
 
+        public override bool IsOverheat
+        {
+            get =>
+                _isOverheat;
+        }
+
         public override bool CanFire
         {
             get
             {
-                return  Time.time >= _nextFireTime && Time.time >= _reloadedTime;
+                return Time.time >= _nextFireTime && Time.time >= _reloadedTime;
             }
         }
 
-        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,  float fireRange)
+        public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
+            float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
+            AudioManager audioManager)
         {
-            base.Setup(fireSettings, firePosition, bulletFactory, fireRange);
+            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager);
             _currentFirePreset = fireSettings.FireTankFirePresets;
         }
 
         public override void Fire()
         {
+            if (_isOverheat)
+            {
+                _isOverheat = false;
+            }
+            
             if (_bullet == null)
             {
                 _bullet = _bulletFactory.GetBullet(Type);
@@ -56,19 +70,25 @@ namespace Project
         {
             try
             {
-                await UniTask.Delay(TimeSpan.FromSeconds(_currentFirePreset.FlameAttackTime), cancellationToken: refreshToken);
-                _reloadedTime = Time.deltaTime + _currentFirePreset.ReloadTime;
-                StopFire();
+                await UniTask.Delay(TimeSpan.FromSeconds(_currentFirePreset.FlameAttackTime),
+                    cancellationToken: refreshToken);
+
+                _reloadedTime = Time.time + _currentFirePreset.ReloadTime;
+                _isOverheat = true;
+
+                StopFire(true);
             }
             catch (OperationCanceledException e)
             {
             }
         }
 
-        public override void StopFire()
+        public override void StopFire(bool isOverhead = false)
         {
             if (_bullet)
             {
+                _onFireStopedCallBack?.Invoke(isOverhead);
+
                 UniTaskUtil.CancelToken(ref _flameToken);
                 _bullet.Free();
                 _bullet = null;

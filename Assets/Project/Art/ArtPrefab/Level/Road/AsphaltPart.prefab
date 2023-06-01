@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4997744729551822201}
   m_Layer: 0
   m_Name: AsphaltPart
-  m_TagString: Untagged
+  m_TagString: earth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -25,7 +25,7 @@ MonoBehaviour:
     <FlameAttackTime>k__BackingField: 3
     <FireDelay>k__BackingField: 0.1
   <TwoGunFirePreset>k__BackingField:
-    <ReloadTime>k__BackingField: 0
+    <ReloadTime>k__BackingField: 5
     <Damage>k__BackingField: 0.2
     <Bullet>k__BackingField: {fileID: 7552137636268246904, guid: 9f0fe82d37aa6f8439a3b57ae89b5142,
       type: 3}
@@ -66,3 +66,4 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    <OverHeatTime>k__BackingField: 5

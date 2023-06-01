@@ -35,18 +35,19 @@ namespace Project
 
             PreparePool();
             
-            _levelFlowController.Loaded += LevelFlowController_Loaded;
+            _levelFlowController.PreLoaded += LevelFlowController_Loaded;
         }
 
         protected override void DeInit()
         {
             base.DeInit();
             
-            _levelFlowController.Loaded -= LevelFlowController_Loaded;
+            _levelFlowController.PreLoaded -= LevelFlowController_Loaded;
         }
 
         private void PreparePool()
         {
+            Prepare(PoolSettings.PooledAudio, PooledObjectType.Save, 20);
         }
         
         private PooledBehaviour PrepareObject(PooledBehaviour pooledBehaviour, PooledObjectType pooledType)

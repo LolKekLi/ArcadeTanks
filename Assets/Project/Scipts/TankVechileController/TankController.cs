@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using Project.Meta;
+using UniRx;
 using UnityEngine;
+using UnityEngine.VFX;
 using Zenject;
 
 namespace Project
 {
-    public class TankController : MonoBehaviour, ITank, IDamagable
+    public class TankController : MonoBehaviour, ITank, IDamagable, IEffectTarget
     {
-        public static event Action Fired = delegate { }; 
-        public static event Action<float> Damaged = delegate {  };
+        public static event Action Fired = delegate { };
+        public static event Action<float> HpChanged = delegate { };
+        public static event Action<bool> StopFire = delegate { };
 
         [SerializeField]
         private TurretType _currentTurretType;
@@ -25,9 +29,19 @@ namespace Project
         [SerializeField]
         private TankViewModel _tankViewModel;
 
-        private float _currentHp;
-        
+        [SerializeField, Header("Armor")]
+        private Collider _armorCollider;
+
+        [SerializeField]
+        private VisualEffect _shiedlEffect;
+
+        private bool _isMoveSoundPlay;
+        private float _maxHP;
+
+        private ReactiveProperty<float> _currentHp = new ReactiveProperty<float>();
+
         private AttackControllerBase _attackController;
+        private List<IDisposable> _subscribeLinks = new List<IDisposable>();
 
         [Inject]
         private CameraController _cameraController;
@@ -46,15 +60,26 @@ namespace Project
 
         [Inject]
         private TankBodySettings _tankBodySettings;
-        
+
+        [Inject]
+        private LevelFlowController _levelFlowController;
+
+        [Inject]
+        private AudioManager _audioManager;
+
+        private InputController inputs;
+
+
         public float HP
         {
-            get;
+            get =>
+                _currentHp.Value;
         }
 
         public bool IsDied
         {
-            get;
+            get =>
+                _currentHp.Value <= 0;
         }
 
         public TurretType Type
@@ -62,10 +87,22 @@ namespace Project
             get =>
                 _currentTurretType;
         }
-        
+
         private void Awake()
         {
             Setup(_user.TurretType.Value, _user.BodyType.Value);
+        }
+
+        private void OnEnable()
+        {
+            _levelFlowController.Finished += LevelFlowController_Finished;
+        }
+
+        private void OnDisable()
+        {
+            _levelFlowController.Finished -= LevelFlowController_Finished;
+
+            _subscribeLinks.Do(x => x.Dispose());
         }
 
         private void Setup(TurretType turretType, BodyType bodyType)
@@ -80,13 +117,54 @@ namespace Project
             _cameraController.Setup(_turretMovement, transform);
 
             _attackController = _attackControllerFactory.GetAttackController(turretType);
-            _attackController.Setup(_tankFireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
-                _tankViewModel.FireRange);
 
-            _currentHp = tankMovementPreset.HP;
+            _attackController.Setup(_tankFireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
+                _tankViewModel.FireRange, isOverheat => { StopFire(isOverheat); }, _tankViewModel.OnFireParticle, _audioManager);
+
+            _maxHP = tankMovementPreset.HP;
+            _currentHp.Value = tankMovementPreset.HP;
+
+            ((IEffectTarget)this).DisableArmor();
+
+            var disposable = _currentHp.Subscribe(value => { HpChanged(_currentHp.Value); });
+
+            _subscribeLinks.Add(disposable);
+            
+            inputs = GetComponent<InputController>();
         }
 
         private void Update()
+        {
+            if (IsDied)
+            {
+                return;
+            }
+
+            PlaySounds();
+
+            Fire();
+
+#if UNITY_EDITOR
+            DebugUpdate();
+#endif
+        }
+
+        private void PlaySounds()
+        {
+            // if (_tankMovement.VelocityInKMH >= 0.1 && !_isMoveSoundPlay)
+            // {
+            //     _isMoveSoundPlay = true;
+            //     _audioManager.PlayLoopedSound(SoundType.TankMove, Vector3.zero, false);
+            // }
+            // else if (_isMoveSoundPlay)
+            // {
+            //     _isMoveSoundPlay = false;
+            //     _audioManager.StopLoopedSound(SoundType.TankMove, false);
+            // }
+            
+        }
+
+        private void Fire()
         {
             if (Input.GetMouseButton(0) && _attackController.CanFire)
             {
@@ -97,27 +175,45 @@ namespace Project
             {
                 _attackController.StopFire();
             }
-
-#if UNITY_EDITOR
-            DebugUpdate();
-#endif
         }
-        
+
         public void TakeDamage(float damage)
         {
-            _currentHp -= damage;
+            if (_armorCollider.enabled)
+            {
+                return;
+            }
 
-            Damaged(_currentHp);
-            
-            if (_currentHp <= 0)
+            _currentHp.Value -= damage;
+
+            if (_currentHp.Value <= 0)
             {
                 Died();
             }
         }
 
+        private void LevelFlowController_Finished(bool isSuccess)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            DisableControll();
+        }
+
         public void Died()
         {
+            _levelFlowController.Fail();
             _tankViewModel.OnDied();
+        }
+
+        private void DisableControll()
+        {
+            inputs.Free();
+            inputs.enabled = false;
+         
+           // _tankMovement.enabled = false;
+            _cameraController.enabled = false;
+            _turretMovement.enabled = false;
         }
 
 #if UNITY_EDITOR
@@ -129,7 +225,7 @@ namespace Project
                 _tankViewModel.DebugSetupTurret(_currentTurretType);
             }
         }
-        
+
         private void DebugUpdate()
         {
             if (Input.GetKeyDown(KeyCode.L))
@@ -138,6 +234,28 @@ namespace Project
             }
         }
 #endif
-      
+
+        void IEffectTarget.EnableArmor()
+        {
+            _armorCollider.enabled = true;
+            _shiedlEffect.gameObject.SetActive(true);
+            _shiedlEffect.Play();
+        }
+
+        void IEffectTarget.DisableArmor()
+        {
+            _armorCollider.enabled = false;
+            _shiedlEffect.gameObject.SetActive(false);
+        }
+
+        void IEffectTarget.ChangeSpeed(float presetValue)
+        {
+            _tankMovement.ChangeSpeed(presetValue);
+        }
+
+        void IEffectTarget.AddHP(float presetValue)
+        {
+            _currentHp.Value = Mathf.Clamp(_currentHp.Value + presetValue, 0, _maxHP);
+        }
     }
 }

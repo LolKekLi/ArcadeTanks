@@ -30,11 +30,14 @@ public class BulletFactory : ZenjectManager<BulletFactory>
     private void OnEnable()
     {
         _levelFlowController.Loaded += LevelFlowController_Loaded;
+        _levelFlowController.PreLoaded += LevelFlowController_PreLoaded;
     }
 
     private void OnDisable()
     {
         _levelFlowController.Loaded -= LevelFlowController_Loaded;
+        _levelFlowController.PreLoaded -= LevelFlowController_PreLoaded;
+
     }
 
     public Bullet GetBullet(TurretType turretType)
@@ -55,15 +58,7 @@ public class BulletFactory : ZenjectManager<BulletFactory>
 
     private void LevelFlowController_Loaded()
     {
-        if (_pooledBuulets == null)
-        {
-            _pooledBuulets = new Dictionary<TurretType, Bullet[]>();
-        }
         
-        foreach (var _pooledBullet in _pooledBuulets)
-        {
-            _pooledBullet.Value.Do(x => x.Free());
-        }
 
         _pooledBuulets.Clear();
 
@@ -75,6 +70,19 @@ public class BulletFactory : ZenjectManager<BulletFactory>
             {
                 _pooledBuulets.Add(bulletPreset.Key, PrepareBullet(bulletPreset.Key, bulletPreset.Value));
             }
+        }
+    }
+
+    private void LevelFlowController_PreLoaded()
+    {
+        if (_pooledBuulets == null)
+        {
+            _pooledBuulets = new Dictionary<TurretType, Bullet[]>();
+        }
+        
+        foreach (var _pooledBullet in _pooledBuulets)
+        {
+            _pooledBullet.Value.Do(x => x.Free());
         }
     }
 

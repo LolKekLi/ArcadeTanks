@@ -10,14 +10,27 @@ namespace Project
 
         public AudioSource Source
         {
-            get => _source;
+            get =>
+                _source;
         }
 
-        public void Setup(AudioClip clip, float pitch)
+        public void Setup(AudioClip clip, float pitch, float volume = 1, bool isLooped = false)
         {
+            _source.volume = volume;
             _source.clip = clip;
             _source.pitch = pitch;
-            FreeTimeout = clip.length;
+
+            if (isLooped)
+            {
+                _source.loop = true;
+                FreeTimeout = 0;
+            }
+            else
+            {
+                _source.loop = false;
+                FreeTimeout = clip.length;
+            }
+
             _source.Play();
         }
     }

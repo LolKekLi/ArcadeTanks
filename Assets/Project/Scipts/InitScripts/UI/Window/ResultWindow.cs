@@ -8,7 +8,7 @@ namespace Project.UI
     {
         private static readonly string ReceivedCoinsKey = "ReceivedCoinsKey";
 
-        [SerializeField]
+        [SerializeField, Space]
         private Button _continueButton = null;
 
         private LevelFlowController _levelFlowController = null;
@@ -28,7 +28,7 @@ namespace Project.UI
         {
             base.Start();
             
-            _continueButton.onClick.AddListener(OnContinueButtonClicked);
+            _continueButton.onClick.AddListener(OnContinueButtonClicked, SoundType.Click);
         }
         
         protected override void OnShow()
@@ -40,7 +40,7 @@ namespace Project.UI
         
         private void OnContinueButtonClicked()
         {
-            _levelFlowController.Load();
+            _levelFlowController.LoadHub();
         }
     }
 }

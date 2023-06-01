@@ -13,6 +13,7 @@ namespace Project
     public class LevelFlowController
     {
         public event Action Loaded = null;
+        public event Action PreLoaded = null;
         public event Action Started = null;
         public event Action<bool> Finished = null;
 
@@ -74,6 +75,10 @@ namespace Project
         
         public async UniTask Load(Action callback = null)
         {
+            PreLoaded.Invoke();
+            
+            _uiSystem.ShowWindow<LoaderWindow>();
+            
             await SceneManager.LoadSceneAsync(_levelSettings.GetScene);
 
             Loaded?.Invoke();
@@ -83,8 +88,15 @@ namespace Project
             _uiSystem.ShowWindow<GameWindow>();
         }
 
-        public async UniTask LoadHub()
+        public async UniTask LoadHub(bool isNeedLoaderWindow = true)
         {
+            PreLoaded.Invoke();
+            
+            if (isNeedLoaderWindow)
+            {
+                _uiSystem.ShowWindow<LoaderWindow>();
+            }
+            
             await SceneManager.LoadSceneAsync(_levelSettings.HubScene);
             
             _uiSystem.ShowWindow<MainWindow>();

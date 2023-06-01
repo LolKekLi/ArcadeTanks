@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Project
 {
     public abstract class AttackControllerBase
     {
-        protected Transform _firePosition;
+        protected SoundType _fireSoundType;
 
+        protected Action<bool> _onFireStopedCallBack;
+
+        protected Transform _firePosition;
         protected BulletFactory _bulletFactory;
+        protected ParticleSystem _onFireParticle;
+        protected AudioManager _audioManager;
 
         public abstract bool CanFire
         {
@@ -18,13 +24,35 @@ namespace Project
             get;
         }
 
-        public virtual void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory, float fireRange)
+        public abstract bool IsOverheat
         {
+            get;
+        }
+
+        public virtual void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
+            float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
+            AudioManager audioManager)
+        {
+            _audioManager = audioManager;
+            _onFireParticle = onFireParticle;
+            _onFireStopedCallBack = onFireStopedCallBack;
             _firePosition = firePosition;
             _bulletFactory = bulletFactory;
+
+            _fireSoundType = GetSoundType();
+        }
+
+        private SoundType GetSoundType()
+        {
+            return Type switch
+            {
+                TurretType.Classic => SoundType.ClassicFire,
+                TurretType.Fire => SoundType.FlameFire,
+                TurretType.TwoGuns => SoundType.TwoGunsFire,
+            };
         }
 
         public abstract void Fire();
-        public abstract void StopFire();
+        public abstract void StopFire(bool isOverhead = false);
     }
 }

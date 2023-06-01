@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,8 +45,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac80f80d1474b03b48de3c7c299254c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setups: []
+  _setups:
+  - _audioType: 0
+    _clips:
+    - {fileID: 8300000, guid: b0b15d2dd0aac8b4aab6a74b363cc0df, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
+  - _audioType: 1
+    _clips:
+    - {fileID: 8300000, guid: 8d878422c34bc9141895c119b5b390f3, type: 3}
+    - {fileID: 8300000, guid: 1885028d8052d86449286b489f627793, type: 3}
+    - {fileID: 8300000, guid: a569092ecf2f3a8468186a2066d6c307, type: 3}
+    - {fileID: 8300000, guid: 56a19e5bf09f4a244b05419db3c3952f, type: 3}
+    - {fileID: 8300000, guid: 7c4e384101be8dc4cb17ef919584d45e, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
+  - _audioType: 2
+    _clips:
+    - {fileID: 8300000, guid: 4270d53fdf5856f498bc61ad0b434dc0, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 1
+  - _audioType: 3
+    _clips:
+    - {fileID: 8300000, guid: fbcff91cc483c014eb81e82cbba41b3d, type: 3}
+    - {fileID: 8300000, guid: 622c493c7c61050459fdc3271186f02f, type: 3}
+    - {fileID: 8300000, guid: f6c92c1f85672244ab2dfeb17d3edf36, type: 3}
+    - {fileID: 8300000, guid: 95f00f5c2aa2ab141b46ffb16f662eba, type: 3}
+    - {fileID: 8300000, guid: a56d3218c8013544aa0493fde2b1a648, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
+  - _audioType: 4
+    _clips:
+    - {fileID: 8300000, guid: 261981db70f33e0479c271df71638a2b, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
+  - _audioType: 5
+    _clips:
+    - {fileID: 8300000, guid: e9debf92a853a524f9afd7a26b565ab0, type: 3}
+    <Volume>k__BackingField: 0.554
+    <IsLoop>k__BackingField: 1
+  - _audioType: 6
+    _clips:
+    - {fileID: 8300000, guid: 24fa66a307ab3e343a5d69a9fe231d4c, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 1
+  - _audioType: 7
+    _clips:
+    - {fileID: 8300000, guid: 2fa4d5c18cf6c3948b2560176b39ed1a, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 1
+  - _audioType: 8
+    _clips:
+    - {fileID: 8300000, guid: 93615bd705c17ba439cc210dcab6020e, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
+  - _audioType: 9
+    _clips:
+    - {fileID: 8300000, guid: 79070014e8bb5b14c9eb52019595648b, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
   _audioSource: {fileID: 1383450312985122336}
+  _defaultSmoothChangeTime: 0.2
 --- !u!82 &1383450312985122336
 AudioSource:
   m_ObjectHideFlags: 0

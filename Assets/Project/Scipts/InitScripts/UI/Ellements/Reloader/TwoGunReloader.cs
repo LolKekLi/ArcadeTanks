@@ -5,9 +5,12 @@ namespace Project.UI
 {
     public class TwoGunReloader : RealoaderBase
     {
-        private TankFireSettings.TwoGunAttackPreset _twoGunFirePreset;
+        private bool _fireIsStop = false;
+        
         private float _time;
         private float _endFireTime;
+
+        private TankFireSettings.TwoGunAttackPreset _twoGunFirePreset;
 
         public TwoGunReloader(Image reloadImage) : base(reloadImage)
         {
@@ -32,11 +35,22 @@ namespace Project.UI
         
         public override void OnStopFire(bool isOverhead)
         {
+            if (_fireIsStop)
+            {
+                return;
+            }
+            
             base.OnStopFire(isOverhead);
 
             _time = 0;
+            
+            _fireIsStop = true;
+            
             FillReloadImage(isOverhead ? _twoGunFirePreset.ReloadTime : 0.2f, 0,
-                UniTaskUtil.RefreshToken(ref _fillToken));
+                UniTaskUtil.RefreshToken(ref _fillToken), () =>
+                {
+                    _fireIsStop = false;
+                });
         }
     }
 }

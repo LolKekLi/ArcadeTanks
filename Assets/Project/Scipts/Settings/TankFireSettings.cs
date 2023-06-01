@@ -76,6 +76,13 @@ public class TankFireSettings : ScriptableObject
             get;
             private set;
         }
+
+        [field: SerializeField]
+        public float OverHeatTime
+        {
+            get;
+            private set;
+        } = 3;
     }
 
 

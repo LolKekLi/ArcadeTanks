@@ -85,7 +85,7 @@ namespace Project
 
         [SerializeField]
         private BodyPreset[] _bodyPresets;
-        
+
         [field: SerializeField]
         public GameObject TurretGameObject
         {
@@ -107,8 +107,8 @@ namespace Project
 
         [SerializeField]
         private float _torqueRange;
-        
-        
+
+
         private BodyPreset _bodyPreset;
         private TurretPreset _currentTurretPreset;
 
@@ -124,11 +124,17 @@ namespace Project
                 _currentTurretPreset.FirePositionRange;
         }
 
+        public ParticleSystem OnFireParticle
+        {
+            get =>
+                _currentTurretPreset.OnFireParticle;
+        }
+
         protected virtual void Awake()
         {
             foreach (var preset in _bodyPresets)
             {
-                preset.OnDiedParticles.Do(x=>x.gameObject.SetActive(false));
+                preset.OnDiedParticles.Do(x => x.gameObject.SetActive(false));
             }
         }
 
@@ -191,8 +197,8 @@ namespace Project
             float torque = Random.Range(_torqueRange, _torqueRange);
             Vector3 torqueDirection = Random.insideUnitSphere.normalized;
             _turretRb.AddTorque(torqueDirection * torque, ForceMode.Impulse);
-            
-            _bodyPreset.OnDiedParticles.Do(x=>
+
+            _bodyPreset.OnDiedParticles.Do(x =>
             {
                 x.gameObject.SetActive(true);
                 x.Play();

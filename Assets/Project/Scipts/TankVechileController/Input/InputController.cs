@@ -24,4 +24,11 @@ public abstract class InputController : MonoBehaviour
     }
 
     public abstract void GetInput();
+
+    public void Free()
+    {
+        DriveInput = 0;
+        TurnInput = 0;
+        BrakeInput = true;
+    }
 }

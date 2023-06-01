@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -12,19 +13,17 @@ public class GrodedChecker : MonoBehaviour
         private set;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(_earthTag))
         {
             IsGrounded = true;
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(_earthTag))
+        else
         {
             IsGrounded = false;
         }
     }
+
+   
 }

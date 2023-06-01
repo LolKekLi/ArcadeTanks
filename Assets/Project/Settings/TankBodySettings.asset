@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tankMovementPresets:
   - <Type>k__BackingField: 0
-    <HP>k__BackingField: 0
+    <HP>k__BackingField: 5
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3
@@ -28,7 +28,7 @@ MonoBehaviour:
     <maxGunAngle_elevation>k__BackingField: 1
     <minGunAngle_depression>k__BackingField: 1
   - <Type>k__BackingField: 1
-    <HP>k__BackingField: 0
+    <HP>k__BackingField: 5
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3
@@ -42,7 +42,7 @@ MonoBehaviour:
     <maxGunAngle_elevation>k__BackingField: 1
     <minGunAngle_depression>k__BackingField: 1
   - <Type>k__BackingField: 2
-    <HP>k__BackingField: 0
+    <HP>k__BackingField: 5
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3

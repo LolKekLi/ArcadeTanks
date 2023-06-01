@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Project.Meta;
 using UniRx;
 using UnityEngine;
@@ -30,15 +28,18 @@ namespace Project.UI
 
         [Inject]
         private IUser _user;
+
         [Inject]
         private UIIconSettings _uiIconSettings;
+
         [Inject]
         private TankFireSettings _tankFireSettings;
+
         [Inject]
         private TankBodySettings _tankBodySettings;
 
         private float _maxHp;
-        private float  _currentHp;
+        private float _currentHp;
 
         public override bool IsPopup
         {
@@ -51,7 +52,8 @@ namespace Project.UI
             base.OnEnable();
 
             TankController.Fired += TankController_Fired;
-            TankController.Damaged += TankController_Damaged;
+            TankController.StopFire += TankController_StopFire;
+            TankController.HpChanged += TankController_HpChanged;
         }
 
         protected override void OnDisable()
@@ -59,7 +61,8 @@ namespace Project.UI
             base.OnDisable();
 
             TankController.Fired -= TankController_Fired;
-            TankController.Damaged -= TankController_Damaged;
+            TankController.StopFire -= TankController_StopFire;
+            TankController.HpChanged -= TankController_HpChanged;
 
             _realoader?.CanselToken();
         }
@@ -70,11 +73,11 @@ namespace Project.UI
 
             var turretTypeValue = _user.TurretType.Value;
             var bodyTypeValue = _user.BodyType.Value;
-            
+
             _hpBar.fillAmount = 1;
 
             _bodyIcon.sprite = _uiIconSettings.GetBodyIcon(bodyTypeValue);
-            
+
             _turretIcon.sprite = _uiIconSettings.GetTurretIcon(turretTypeValue);
 
             _realoader = GetUIReloader(turretTypeValue);
@@ -87,91 +90,38 @@ namespace Project.UI
             switch (type)
             {
                 case TurretType.Classic:
-                    var reloader = new ClassicReloader(_reloadImage);
-                    reloader.Setup(_tankFireSettings.ClassicFirePresets);
-                    return reloader;
+                    var classicReloader = new ClassicReloader(_reloadImage);
+                    classicReloader.Setup(_tankFireSettings.ClassicFirePresets);
+                    return classicReloader;
+                
+                case TurretType.Fire:
+                    var fireReloader = new FireReloader(_reloadImage);
+                    fireReloader.Setup(_tankFireSettings.FireTankFirePresets);
+                    return fireReloader;
+                
+                case TurretType.TwoGuns:
+                    var twoGunReloader = new     TwoGunReloader(_reloadImage);
+                    twoGunReloader.Setup(_tankFireSettings.TwoGunFirePreset);
+                    return twoGunReloader;
+                    
                 default:
                     return null;
             }
         }
 
-        private void TankController_Damaged(float tankHp)
+        private void TankController_HpChanged(float tankHp)
         {
             _hpBar.fillAmount = tankHp / (float)_maxHp;
         }
 
         private void TankController_Fired()
         {
-            _realoader.Reload();
-        }
-    }
-
-    public abstract class RealoaderBase
-    {
-        protected Image _reloadImage;
-        protected CancellationTokenSource _fillToken;
-
-        public RealoaderBase(Image reloadImage)
-        {
-            _reloadImage = reloadImage;
-         
+            _realoader.OnFire();
         }
 
-        public abstract void Reload();
-
-        protected void FillReloadImage(float fillTime, int targetValue, CancellationToken cancellationToken)
+        private void TankController_StopFire(bool isOverhead)
         {
-            try
-            {
-                var startValue = _reloadImage.fillAmount;
-                UniTaskExtensions.Lerp(time =>
-                    {
-                        _reloadImage.fillAmount = Mathf.Lerp(startValue, targetValue, time);
-                    },
-                    fillTime, token: cancellationToken);
-            }
-            catch (OperationCanceledException e)
-            {
-            }
-        }
-
-        public virtual void CanselToken()
-        {
-            UniTaskUtil.CancelToken(ref _fillToken);
-        }
-    }
-
-    public class ClassicReloader : RealoaderBase
-    {
-        private TankFireSettings.ClassTankFirePreset _firePreset;
-
-        public ClassicReloader( Image reloadImage)
-            : base(reloadImage)
-        {
-        }
-
-        public void Setup(TankFireSettings.ClassTankFirePreset firePreset)
-        {
-            _firePreset = firePreset;
-        }
-
-        public override void Reload()
-        {
-            _reloadImage.fillAmount = 0;
-
-            FillReloadImage(_firePreset.ReloadTime, 1, UniTaskUtil.RefreshToken(ref _fillToken));
-        }
-    }
-    
-    public class FireReloader : RealoaderBase
-    {
-        public FireReloader(Image reloadImage) : base(reloadImage)
-        {
-        }
-
-        public override void Reload()
-        {
-            
+            _realoader.OnStopFire(isOverhead);
         }
     }
 }

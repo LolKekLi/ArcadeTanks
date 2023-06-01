@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8716891727411113828}
+  - component: {fileID: 8620060104934627422}
   m_Layer: 0
   m_Name: Hellicopter
   m_TagString: Untagged
@@ -48,6 +49,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8620060104934627422
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313319097920690782}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.167953, y: 0.4636685, z: 18.025162}
+  m_Center: {x: 0.602623, y: -0.26816577, z: -21.343864}
 --- !u!1001 &553188473835044304
 PrefabInstance:
   m_ObjectHideFlags: 0
