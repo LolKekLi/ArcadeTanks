@@ -81,11 +81,20 @@ namespace Project
             
             await SceneManager.LoadSceneAsync(_levelSettings.GetScene);
 
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            
             Loaded?.Invoke();
             
-            callback?.Invoke();
+            if (LocalConfig.IsFirtsGame)
+            {
+                _uiSystem.ShowWindow<TutorialWindow>();
+            }
+            else
+            {
+                _uiSystem.ShowWindow<GameWindow>();
+            }
             
-            _uiSystem.ShowWindow<GameWindow>();
+            callback?.Invoke();
         }
 
         public async UniTask LoadHub(bool isNeedLoaderWindow = true)
@@ -99,7 +108,9 @@ namespace Project
             
             await SceneManager.LoadSceneAsync(_levelSettings.HubScene);
             
+            
             _uiSystem.ShowWindow<MainWindow>();
+           
 
             Loaded?.Invoke();
         }

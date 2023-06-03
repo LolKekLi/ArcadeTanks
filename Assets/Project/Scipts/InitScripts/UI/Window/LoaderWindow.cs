@@ -4,7 +4,13 @@
     {
         public override bool IsPopup
         {
-            get => false;
+            get =>
+                false;
+        }
+
+        protected override void OnShow()
+        {
+            gameObject.SetActive(true);
         }
     }
 }

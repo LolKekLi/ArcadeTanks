@@ -105,10 +105,20 @@ namespace Project
 
                 RefreshLoopedAudio(isMuted);
             });
+            
+            _levelFlowController.PreLoaded += LevelFlowController_PreLoaded;
 
             ButtonExtensions.SetManagerInstance(this);
         }
-        
+
+        private void LevelFlowController_PreLoaded()
+        {
+            foreach (var loopedAudioData in _loopedAudios)
+            {
+                loopedAudioData.Value.PooledAudio = null;
+            }
+        }
+
         private void RefreshLoopedAudio(bool isMuted)
         {
             foreach (var pooledAudio in _loopedAudios)

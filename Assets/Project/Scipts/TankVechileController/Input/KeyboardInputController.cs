@@ -12,5 +12,9 @@ public class KeyboardInputController : InputController
         DriveInput = Mathf.Clamp(Input.GetAxisRaw("Vertical"), -1, 1);
         TurnInput = Mathf.Clamp(Input.GetAxisRaw("Horizontal"), -1, 1);
         BrakeInput = Input.GetKey("space");
+
+        HasInput = DriveInput != 0 || TurnInput != 0;
+        
+      
     }
 }

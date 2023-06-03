@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tankMovementPresets:
   - <Type>k__BackingField: 0
-    <HP>k__BackingField: 5
+    <HP>k__BackingField: 25
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3
@@ -23,26 +23,26 @@ MonoBehaviour:
     <MovementSidewaysFriction>k__BackingField: 2.2
     <StillSidewaysFriction>k__BackingField: 0.8
     <CenterOfMassYOffset>k__BackingField: -1
-    <turretTraverseSpeed>k__BackingField: 45
+    <turretTraverseSpeed>k__BackingField: 60
     <gunTraverseSpeed>k__BackingField: 0.001
     <maxGunAngle_elevation>k__BackingField: 1
     <minGunAngle_depression>k__BackingField: 1
   - <Type>k__BackingField: 1
-    <HP>k__BackingField: 5
+    <HP>k__BackingField: 15
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3
-    <TurningForceCoefficient>k__BackingField: 0.7
-    <ForwardForceCoefficient>k__BackingField: 12
+    <TurningForceCoefficient>k__BackingField: 4
+    <ForwardForceCoefficient>k__BackingField: 24
     <MovementSidewaysFriction>k__BackingField: 2.2
     <StillSidewaysFriction>k__BackingField: 0.8
     <CenterOfMassYOffset>k__BackingField: -1
-    <turretTraverseSpeed>k__BackingField: 45
+    <turretTraverseSpeed>k__BackingField: 80
     <gunTraverseSpeed>k__BackingField: 0.001
     <maxGunAngle_elevation>k__BackingField: 1
     <minGunAngle_depression>k__BackingField: 1
   - <Type>k__BackingField: 2
-    <HP>k__BackingField: 5
+    <HP>k__BackingField: 40
     <TurnTorque>k__BackingField: 1
     <DriveTorque>k__BackingField: 2
     <BrakeStrength>k__BackingField: 3

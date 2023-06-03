@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Project.Meta;
 using UniRx;
 using UnityEngine;
@@ -54,20 +55,21 @@ namespace Project.UI
             });
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                PlayerPrefs.DeleteAll();
+            }
+        }
+
         protected override void OnShow()
         {
             base.OnShow();
             
             _audioManager.PlayLoopedSound(SoundType.HubScene, Vector3.zero, false);
         }
-
-        protected override UniTask OnHide(bool isAnimationNeeded)
-        {
-            _audioManager.StopLoopedSound(SoundType.HubScene, false);
-            
-            return base.OnHide(isAnimationNeeded);
-        }
-
+        
         private void OnStartButtonClicked()
         {
             _levelFlowController.Load();

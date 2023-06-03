@@ -80,11 +80,11 @@ public class EnemyBehaviourFSM
 
     public void OnDied()
     {
+        CurrentBehaviour.Exit();
+        CurrentBehaviour = null;
         foreach (var enemyBehaviourBase in _behaviour)
         {
             enemyBehaviourBase.Value.Dispose();
         }
-
-        CurrentBehaviour = null;
     }
 }

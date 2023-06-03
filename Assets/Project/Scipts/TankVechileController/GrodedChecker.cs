@@ -24,6 +24,4 @@ public class GrodedChecker : MonoBehaviour
             IsGrounded = false;
         }
     }
-
-   
 }

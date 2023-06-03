@@ -23,7 +23,7 @@ namespace Project.UI
         private SelfTweenController _onHideAnimation = null;
 
         private User _user = null;
-        private UISystem _uiSystem = null;
+        protected UISystem _uiSystem = null;
         
         private UniRxSubscribersContainer _subscribersContainer = new UniRxSubscribersContainer();
       

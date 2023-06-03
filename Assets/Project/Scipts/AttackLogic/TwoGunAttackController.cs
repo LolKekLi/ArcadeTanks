@@ -61,10 +61,16 @@ namespace Project
                 Overcloking(UniTaskUtil.RefreshToken(ref _overclockingToken));
             }
 
+            _audioManager?.Play2DSound(_fireSoundType);
+            
             var _bullet = _bulletFactory.GetBullet(Type);
 
-            _bullet.transform.position = _firePosition.position +
+            var position = _firePosition.position +
                 _firePosition.TransformDirection(new Vector3(_fireRange, 0)) * (_isRight ? 1 : -1);
+
+            _onFireParticle.transform.position = position;
+            _onFireParticle.Play();
+            _bullet.transform.position = position;
             _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
             _bullet.Setup(_currentFirePreset.Damage);
             _bullet.Fire(_firePosition.forward);
@@ -85,6 +91,7 @@ namespace Project
 
                 _reloadedTime = Time.time + _currentFirePreset.ReloadTime;
                 _isOverheat = true;
+                _audioManager.Play2DSound(SoundType.Overheat);
 
                 StopFire(true);
             }
@@ -99,6 +106,11 @@ namespace Project
 
             UniTaskUtil.CancelToken(ref _overclockingToken);
             _delay = _currentFirePreset.FireDelay.Max;
+        }
+
+        public override void Dispose()
+        {
+            UniTaskUtil.CancelToken(ref _overclockingToken);
         }
     }
 }

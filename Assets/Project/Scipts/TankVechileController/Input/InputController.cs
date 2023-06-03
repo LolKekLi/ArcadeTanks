@@ -23,6 +23,12 @@ public abstract class InputController : MonoBehaviour
         protected set;
     }
 
+    public bool HasInput
+    {
+        get;
+        protected set;
+    }
+
     public abstract void GetInput();
 
     public void Free()

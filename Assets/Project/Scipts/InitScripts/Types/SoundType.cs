@@ -18,5 +18,8 @@ namespace Project
         Repair = 8,
 
         GetBuster = 9,
+        
+        RepairLoop =10,
+        Overheat =11,
     }
 }

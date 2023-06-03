@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Project.Meta;
 using UniRx;
 using UnityEngine;
@@ -101,8 +102,15 @@ namespace Project
         private void OnDisable()
         {
             _levelFlowController.Finished -= LevelFlowController_Finished;
-
+            
             _subscribeLinks.Do(x => x.Dispose());
+        }
+
+        private async void Start()
+        {
+            await UniTask.DelayFrame(2);
+            
+            _audioManager.PlayLoopedSound(SoundType.Level, Vector3.zero, false);
         }
 
         private void Setup(TurretType turretType, BodyType bodyType)
@@ -151,21 +159,26 @@ namespace Project
 
         private void PlaySounds()
         {
-            // if (_tankMovement.VelocityInKMH >= 0.1 && !_isMoveSoundPlay)
-            // {
-            //     _isMoveSoundPlay = true;
-            //     _audioManager.PlayLoopedSound(SoundType.TankMove, Vector3.zero, false);
-            // }
-            // else if (_isMoveSoundPlay)
-            // {
-            //     _isMoveSoundPlay = false;
-            //     _audioManager.StopLoopedSound(SoundType.TankMove, false);
-            // }
+            if (inputs.HasInput && !_isMoveSoundPlay)
+            {
+                _isMoveSoundPlay = true;
+                _audioManager.PlayLoopedSound(SoundType.TankMove, Vector3.zero, false);
+            }
+            else if (_isMoveSoundPlay)
+            {
+                _isMoveSoundPlay = false;
+                _audioManager.StopLoopedSound(SoundType.TankMove, false);
+            }
             
         }
 
         private void Fire()
         {
+            if (_attackController == null)
+            {
+                return;
+            }
+            
             if (Input.GetMouseButton(0) && _attackController.CanFire)
             {
                 Fired();
@@ -202,6 +215,7 @@ namespace Project
 
         public void Died()
         {
+            _audioManager.Play2DSound(SoundType.Destroy);
             _levelFlowController.Fail();
             _tankViewModel.OnDied();
         }
@@ -210,10 +224,13 @@ namespace Project
         {
             inputs.Free();
             inputs.enabled = false;
+            _audioManager.StopLoopedSound(SoundType.TankMove, false);
          
            // _tankMovement.enabled = false;
             _cameraController.enabled = false;
             _turretMovement.enabled = false;
+            _attackController.Dispose();
+            _attackController = null;
         }
 
 #if UNITY_EDITOR

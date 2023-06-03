@@ -1406,12 +1406,12 @@ MonoBehaviour:
   - <TurretType>k__BackingField: 2
     <Turret>k__BackingField: {fileID: 5097565998347961552}
     <FirePosition>k__BackingField: {fileID: 3700408022238068070}
-    <OnFireParticle>k__BackingField: {fileID: 3385974412149240330}
+    <OnFireParticle>k__BackingField: {fileID: 0}
     <FirePositionRange>k__BackingField: 0
   - <TurretType>k__BackingField: 1
     <Turret>k__BackingField: {fileID: 7035960612966824701}
     <FirePosition>k__BackingField: {fileID: 1154639781485756392}
-    <OnFireParticle>k__BackingField: {fileID: 0}
+    <OnFireParticle>k__BackingField: {fileID: 3385974412149240330}
     <FirePositionRange>k__BackingField: 0.32
   _bodyPresets:
   - <BodyType>k__BackingField: 0

@@ -12,6 +12,7 @@ namespace Project
             public const string SkinClaimProgress = "SkinClaimProgress{0}_{1}";
             public const string SelectedSkin = "SelectedSkin_{0}";
             public const string IsMuteAudio = "IsMuteAudio";
+            public const string IsFirstGame = "IsFirstGame";
         }
         
         public static bool IsMuteAudio
@@ -19,7 +20,13 @@ namespace Project
             get => GetBoolValue(Keys.IsMuteAudio, false);
             set => SetBoolValue(Keys.IsMuteAudio, value);
         }
-        
+
+        public static bool IsFirtsGame
+        {
+            get => GetBoolValue(Keys.IsFirstGame, true);
+            set => SetBoolValue(Keys.IsFirstGame, value);
+        }
+
         public static int GetSkinClaimProgress(SkinType skinType, SkinPartType partType)
         {
             return PlayerPrefs.GetInt(string.Format(Keys.SkinClaimProgress, skinType, partType), 0);

@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using EasyButtons;
 using Project;
 using UnityEngine;
 using PathCreation;
@@ -81,7 +82,11 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
     [Inject]
     private BulletFactory _bulletFactory;
 
+    [Inject]
+    private AudioManager _audioManager;
+
     private Action _onDied;
+    private AttackControllerBase _attackControllerBase;
 
     public float HP
     {
@@ -104,6 +109,7 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
     {
         UniTaskUtil.CancelToken(ref _HBBarRotationToken);
         UniTaskUtil.CancelToken(ref _hpBarSmooThChangeRotation);
+        _attackControllerBase.Dispose();
     }
 
     private void Start()
@@ -120,12 +126,12 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
 
         _transform = transform;
 
-        var attackControllerBase = _attackControllerFactory.GetAttackController(_turretType);
+        _attackControllerBase = _attackControllerFactory.GetAttackController(_turretType);
 
-        attackControllerBase.Setup(_fireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
+        _attackControllerBase.Setup(_fireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
             _tankViewModel.FireRange, null, _tankViewModel.OnFireParticle, null);
 
-        _fsm = new EnemyBehaviourFSM(transform, _pathCreator, attackControllerBase,
+        _fsm = new EnemyBehaviourFSM(transform, _pathCreator, _attackControllerBase,
             _tankViewModel.TurretGameObject.transform,
             _agent, _seePlayerTrigger, _attackTrigger, _playerLayerMask, _speed);
     }
@@ -184,6 +190,7 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
 
     public void Died()
     {
+        _audioManager.Play2DSound(SoundType.Destroy);
         _onDied?.Invoke();
         _fsm.OnDied();
         DisableHpBar();
@@ -225,6 +232,13 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
             _tankViewModel.DebugSetupBody(_bodyType);
             _tankViewModel.DebugSetupTurret(_turretType);
         }
+    }
+
+    [Button]
+    public void SetOnPath()
+    {
+        transform.position = _pathCreator.path.GetPointAtDistance(_distanceTravelled, _endOfPathInstruction);
+        transform.rotation = _pathCreator.path.GetRotationAtDistance(_distanceTravelled, _endOfPathInstruction);
     }
 #endif
 

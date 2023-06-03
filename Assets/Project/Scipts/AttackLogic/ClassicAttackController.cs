@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Project
@@ -6,9 +8,11 @@ namespace Project
     public class ClassicAttackController : AttackControllerBase
     {
         private float _canFireTime;
+        private CancellationTokenSource _repairToken; 
        
 
         private TankFireSettings.ClassTankFirePreset _currentFirePreset;
+        private CancellationToken _repaerCancellationToken;
 
         public override bool CanFire
         {
@@ -34,28 +38,43 @@ namespace Project
             base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager);
           
             _currentFirePreset = fireSettings.ClassicFirePresets;
+
+            _repaerCancellationToken = UniTaskUtil.RefreshToken(ref _repairToken);
         }
 
-        public override void Fire()
+        public override async void Fire()
         {
-            _canFireTime = Time.time + _currentFirePreset.ReloadTime;
+            try
+            {
+                _canFireTime = Time.time + _currentFirePreset.ReloadTime;
 
-            var _bullet = _bulletFactory.GetBullet(Type);
+                var _bullet = _bulletFactory.GetBullet(Type);
 
-            _bullet.transform.position = _firePosition.position;
+                _bullet.transform.position = _firePosition.position;
             
-            _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
-            _bullet.Setup(_currentFirePreset.Damage);
-            _bullet.Fire(_firePosition.forward);
+                _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
+                _bullet.Setup(_currentFirePreset.Damage);
+                _bullet.Fire(_firePosition.forward);
             
-            _onFireParticle.Play();
-            _audioManager?.Play2DSound(_fireSoundType);
+                _onFireParticle.Play();
+                _audioManager?.Play2DSound(_fireSoundType);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(_currentFirePreset.ReloadTime - 0.2f), cancellationToken: _repaerCancellationToken);
+                _audioManager?.Play2DSound(_reloadeSoundType );
+                
+            }
+            catch (OperationCanceledException e)
+            {
+            }
         }
-
-      
-
+        
         public override void StopFire(bool isOverhead)
         {
+        }
+
+        public override void Dispose()
+        {
+            UniTaskUtil.CancelToken(ref _repairToken);
         }
     }
 }

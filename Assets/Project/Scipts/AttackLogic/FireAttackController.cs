@@ -60,6 +60,8 @@ namespace Project
                 _bullet.Setup(_currentFirePreset.Damage);
 
                 StartFlaimTimer(UniTaskUtil.RefreshToken(ref _flameToken)).Forget();
+                
+                _audioManager.PlayLoopedSound(_fireSoundType, Vector3.zero, false);
             }
 
             _nextFireTime = Time.deltaTime + _currentFirePreset.FireDelay;
@@ -76,7 +78,10 @@ namespace Project
                 _reloadedTime = Time.time + _currentFirePreset.ReloadTime;
                 _isOverheat = true;
 
+                _audioManager.Play2DSound(SoundType.Overheat);
+                
                 StopFire(true);
+                
             }
             catch (OperationCanceledException e)
             {
@@ -87,12 +92,21 @@ namespace Project
         {
             if (_bullet)
             {
+                _audioManager.StopLoopedSound(_fireSoundType, false);
+                
                 _onFireStopedCallBack?.Invoke(isOverhead);
 
                 UniTaskUtil.CancelToken(ref _flameToken);
                 _bullet.Free();
                 _bullet = null;
             }
+        }
+
+        public override void Dispose()
+        {
+            _bullet.Free();
+            _audioManager.StopLoopedSound(_fireSoundType, false);
+            UniTaskUtil.CancelToken(ref _flameToken);
         }
     }
 }

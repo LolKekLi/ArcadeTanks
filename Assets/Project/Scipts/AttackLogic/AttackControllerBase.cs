@@ -13,6 +13,7 @@ namespace Project
         protected BulletFactory _bulletFactory;
         protected ParticleSystem _onFireParticle;
         protected AudioManager _audioManager;
+        protected SoundType _reloadeSoundType;
 
         public abstract bool CanFire
         {
@@ -39,10 +40,11 @@ namespace Project
             _firePosition = firePosition;
             _bulletFactory = bulletFactory;
 
-            _fireSoundType = GetSoundType();
+            _fireSoundType = GetFireSoundType();
+            _reloadeSoundType = GetReloadeSoundType();
         }
 
-        private SoundType GetSoundType()
+        private SoundType GetFireSoundType()
         {
             return Type switch
             {
@@ -51,8 +53,20 @@ namespace Project
                 TurretType.TwoGuns => SoundType.TwoGunsFire,
             };
         }
+        
+        private SoundType GetReloadeSoundType()
+        {
+            return Type switch
+            {
+                TurretType.Classic => SoundType.Repair,
+                TurretType.Fire => SoundType.RepairLoop,
+                TurretType.TwoGuns => SoundType.RepairLoop,
+            };
+        }
 
         public abstract void Fire();
         public abstract void StopFire(bool isOverhead = false);
+
+        public abstract void Dispose();
     }
 }

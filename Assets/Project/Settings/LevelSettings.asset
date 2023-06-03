@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d972a0b2c384e7784b97c94eaca75c, type: 3}
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
-  _isTestSceneEnabled: 1
+  _isTestSceneEnabled: 0
   _testSceneName: DevTestScene
-  _tutorialSceneName: DevTestScene
+  _tutorialSceneName: Level_1
   <HubScene>k__BackingField: HunScene
   _levels:
   - Level_1
+  - Level_2
   _loopedLevels:
-  - DevTestScene
+  - Level_1
+  - Level_2
   _coinPresets:
   - <LevelIndex>k__BackingField:
       _min: 0

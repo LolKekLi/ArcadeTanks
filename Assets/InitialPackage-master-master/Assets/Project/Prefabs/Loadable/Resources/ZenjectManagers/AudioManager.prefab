@@ -104,6 +104,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 79070014e8bb5b14c9eb52019595648b, type: 3}
     <Volume>k__BackingField: 1
     <IsLoop>k__BackingField: 0
+  - _audioType: 11
+    _clips:
+    - {fileID: 8300000, guid: 2bf609c2630ebd042a923ed034ffe7eb, type: 3}
+    <Volume>k__BackingField: 1
+    <IsLoop>k__BackingField: 0
   _audioSource: {fileID: 1383450312985122336}
   _defaultSmoothChangeTime: 0.2
 --- !u!82 &1383450312985122336

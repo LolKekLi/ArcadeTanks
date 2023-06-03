@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 3481820257314535992}
   - component: {fileID: 3481820257314535994}
   - component: {fileID: 3481820257314535993}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: GroundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,8 +646,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.0916023, y: 0.5257933, z: 3.018259}
-  m_Center: {x: 0, y: 0.97519636, z: 0.090987206}
+  m_Size: {x: 2.0916023, y: 0.5257933, z: 2.6922836}
+  m_Center: {x: 0, y: 0.97519636, z: 0.02677536}
 --- !u!54 &3481820258322170036
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 1064829238512743840}
   - component: {fileID: 6059178162104254792}
   - component: {fileID: 1351347945559720295}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1012,6 +1012,11 @@ PrefabInstance:
     - target: {fileID: 1940867437, guid: 4f4ad6c781819524e9f045b6c5c185ab, type: 3}
       propertyPath: m_Center.y
       value: 1.7459902
+      objectReference: {fileID: 0}
+    - target: {fileID: 965589306126520081, guid: 4f4ad6c781819524e9f045b6c5c185ab,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.04799584
       objectReference: {fileID: 0}
     - target: {fileID: 3806604075986629263, guid: 4f4ad6c781819524e9f045b6c5c185ab,
         type: 3}

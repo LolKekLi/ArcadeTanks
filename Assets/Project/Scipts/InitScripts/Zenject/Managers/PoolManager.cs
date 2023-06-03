@@ -186,7 +186,11 @@ namespace Project
             {
                 foreach (var entry in queue)
                 {
-                    entry.Free();
+                    if (!entry.IsFree)
+                    {
+                        entry.Free();
+                        
+                    }
                 }
             }
         }

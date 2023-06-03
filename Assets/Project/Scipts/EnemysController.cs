@@ -1,3 +1,4 @@
+using System;
 using Project;
 using UnityEngine;
 using Zenject;
@@ -11,16 +12,25 @@ public class EnemysController : MonoBehaviour
     private LevelFlowController _levelFlowController;
 
     private int _enemyCount;
+    private EnemyController[] _componentInChildren;
 
     private void Awake()
     {
-        var componentInChildren = GetComponentsInChildren<EnemyController>();
+        _componentInChildren = GetComponentsInChildren<EnemyController>();
 
-        _enemyCount = componentInChildren.Length;
+        _enemyCount = _componentInChildren.Length;
         for (var i = 0; i < _enemyCount; i++)
         {
-            componentInChildren[i].Setup(OnEnemyDied);
-            _levelData.Tanks.Add(componentInChildren[i]);
+            _componentInChildren[i].Setup(OnEnemyDied);
+            _levelData.Tanks.Add(_componentInChildren[i]);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            _componentInChildren.Do(x=>x.TakeDamage(100));
         }
     }
 

@@ -61,7 +61,6 @@ namespace Project
 
             while (levelWaiter.Status == UniTaskStatus.Pending || time < _loadingSettings.LoadingTime)
             {
-                
                 await UniTask.Yield();
 
                 time += Time.deltaTime;

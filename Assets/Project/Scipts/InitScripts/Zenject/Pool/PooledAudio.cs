@@ -33,5 +33,10 @@ namespace Project
 
             _source.Play();
         }
+
+        protected override void ReturnToPool()
+        {
+            base.ReturnToPool();
+        }
     }
 }

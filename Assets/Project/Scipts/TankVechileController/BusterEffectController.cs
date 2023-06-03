@@ -17,6 +17,9 @@ namespace Project
         [Inject]
         private BusterSettings _busterSettings;
 
+        [Inject]
+        private AudioManager _audioManager;
+
         private void Awake()
         {
             _target = GetComponent<IEffectTarget>();
@@ -31,6 +34,8 @@ namespace Project
         public void ApplyEffect(EffectType type)
         {
             var preset = _busterSettings.GetBusterPreset(type);
+            
+            _audioManager.Play2DSound(SoundType.GetBuster);
 
             switch (type)
             {
