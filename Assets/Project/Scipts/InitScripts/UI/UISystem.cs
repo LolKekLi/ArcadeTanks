@@ -88,6 +88,7 @@ namespace Project.UI
             {
                 var window = _stack.Pop();
                 window.Hide(true);
+                _current = _stack.Peek();
             }
         }
 

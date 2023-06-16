@@ -54,6 +54,8 @@ namespace Project
         }
 
         private readonly ReactiveProperty<bool> _isMuted = new ReactiveProperty<bool>();
+        public readonly ReactiveProperty<float> LoopedMusicVolumeCoef = new ReactiveProperty<float>();
+        public readonly ReactiveProperty<float> VFXMusicVolumeCoef = new ReactiveProperty<float>();
 
         [SerializeField]
         private SoundSetup[] _setups = null;
@@ -67,8 +69,7 @@ namespace Project
         private PoolManager _poolManager = null;
         private Dictionary<SoundType, LoopedAudioData> _loopedAudios;
         private LevelFlowController _levelFlowController;
-
-
+        
         [Inject]
         public void Construct(PoolManager poolManager, LevelFlowController levelFlowController)
         {
@@ -98,6 +99,8 @@ namespace Project
             }
 
             _isMuted.Value = LocalConfig.IsMuteAudio;
+            LoopedMusicVolumeCoef.Value = LocalConfig.LoopedMusicVolumeCoef;
+            VFXMusicVolumeCoef.Value = LocalConfig.VFXMusicVolumeCoef;
 
             _isMuted.Subscribe(isMuted =>
             {
@@ -106,6 +109,28 @@ namespace Project
                 RefreshLoopedAudio(isMuted);
             });
             
+            LoopedMusicVolumeCoef.Subscribe(value =>
+            {
+                LocalConfig.LoopedMusicVolumeCoef = value;
+                
+                foreach (var loopedAudioData in _loopedAudios)
+                {
+                    var valuePooledAudio = loopedAudioData.Value.PooledAudio;
+
+                    if (valuePooledAudio)
+                    {
+                        var soundSetup = _setups.FirstOrDefault(x => x.AudioType == loopedAudioData.Key);
+                        valuePooledAudio.ChangeAudio(soundSetup.Volume * value);
+                    }
+                }
+            });
+            
+            VFXMusicVolumeCoef.Subscribe(value =>
+            {
+                LocalConfig.VFXMusicVolumeCoef = value;
+                _audioSource.volume = value;
+            });
+
             _levelFlowController.PreLoaded += LevelFlowController_PreLoaded;
 
             ButtonExtensions.SetManagerInstance(this);
@@ -208,7 +233,7 @@ namespace Project
             }
 
             PooledAudio pooledAudio = null;
-            var soundSetupVolume = _isMuted.Value ? 0 : soundSetup.Volume;
+            var soundSetupVolume = _isMuted.Value ? 0 : (soundSetup.Volume * LoopedMusicVolumeCoef.Value);
 
             if (!_loopedAudios[soundType].PooledAudio)
             {
@@ -260,7 +285,7 @@ namespace Project
                 {
                     return;
                 }
-                
+
                 SmoothChangeVolume(_loopedAudios[soundType].PooledAudio.Source, 0,
                         changeVolumeTime == -1 ? _defaultSmoothChangeTime : changeVolumeTime,
                         UniTaskUtil.RefreshToken(ref _loopedAudios[soundType].TokenSource), () => ForceStop(soundType))

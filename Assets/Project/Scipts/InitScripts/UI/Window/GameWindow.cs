@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Project.Meta;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,15 @@ namespace Project.UI
         [SerializeField]
         private Image _reloadImage;
 
+        [SerializeField, Space]
+        private TextMeshProUGUI _scoreText;
+
+        [SerializeField]
+        private BaseTweenController _scoreTextTween;
+
+        private float _maxHp;
+        private float _currentHp;
+
         private RealoaderBase _realoader;
 
         [Inject]
@@ -38,9 +48,6 @@ namespace Project.UI
         [Inject]
         private TankBodySettings _tankBodySettings;
 
-        private float _maxHp;
-        private float _currentHp;
-
         public override bool IsPopup
         {
             get =>
@@ -54,6 +61,7 @@ namespace Project.UI
             TankController.Fired += TankController_Fired;
             TankController.StopFire += TankController_StopFire;
             TankController.HpChanged += TankController_HpChanged;
+            ScoreController.Changed += ScoreController_Changed;
         }
 
         protected override void OnDisable()
@@ -63,6 +71,7 @@ namespace Project.UI
             TankController.Fired -= TankController_Fired;
             TankController.StopFire -= TankController_StopFire;
             TankController.HpChanged -= TankController_HpChanged;
+            ScoreController.Changed -= ScoreController_Changed;
 
             _realoader?.CanselToken();
         }
@@ -73,15 +82,14 @@ namespace Project.UI
 
             var turretTypeValue = _user.TurretType.Value;
             var bodyTypeValue = _user.BodyType.Value;
+            _realoader = GetUIReloader(turretTypeValue);
 
             _hpBar.fillAmount = 1;
 
+            RefreshScoreText(0);
+            
             _bodyIcon.sprite = _uiIconSettings.GetBodyIcon(bodyTypeValue);
-
             _turretIcon.sprite = _uiIconSettings.GetTurretIcon(turretTypeValue);
-
-            _realoader = GetUIReloader(turretTypeValue);
-
             _maxHp = _tankBodySettings.GetPresetByType(bodyTypeValue).HP;
         }
 
@@ -93,20 +101,26 @@ namespace Project.UI
                     var classicReloader = new ClassicReloader(_reloadImage);
                     classicReloader.Setup(_tankFireSettings.ClassicFirePresets);
                     return classicReloader;
-                
+
                 case TurretType.Fire:
                     var fireReloader = new FireReloader(_reloadImage);
                     fireReloader.Setup(_tankFireSettings.FireTankFirePresets);
                     return fireReloader;
-                
+
                 case TurretType.TwoGuns:
-                    var twoGunReloader = new     TwoGunReloader(_reloadImage);
+                    var twoGunReloader = new TwoGunReloader(_reloadImage);
                     twoGunReloader.Setup(_tankFireSettings.TwoGunFirePreset);
                     return twoGunReloader;
-                    
+
                 default:
                     return null;
             }
+        }
+
+        private void RefreshScoreText(int scoreValue)
+        {
+            _scoreTextTween.Play();
+            _scoreText.text = $"X{scoreValue}";
         }
 
         private void TankController_HpChanged(float tankHp)
@@ -122,6 +136,11 @@ namespace Project.UI
         private void TankController_StopFire(bool isOverhead)
         {
             _realoader.OnStopFire(isOverhead);
+        }
+
+        private void ScoreController_Changed(int value)
+        {
+            RefreshScoreText(value);
         }
     }
 }

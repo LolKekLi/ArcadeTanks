@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - earth
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - Bullet
   - IgnoreBullet
-  - 
-  - 
+  - Enemy
+  - EnemyBullet
   - 
   - Earth
   - EarthDetector

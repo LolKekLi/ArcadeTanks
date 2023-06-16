@@ -38,5 +38,10 @@ namespace Project
         {
             base.ReturnToPool();
         }
+
+        public void ChangeAudio(float soundSetupVolume)
+        {
+            _source.volume = soundSetupVolume;
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace Project
             public const string SelectedSkin = "SelectedSkin_{0}";
             public const string IsMuteAudio = "IsMuteAudio";
             public const string IsFirstGame = "IsFirstGame";
+            public const string LoopedMusicVolumeCoef = "LoopedMusicVolumeCoef";
+            public const string VFXMusicVolumeCoef = "VFXMusicVolumeCoef";
         }
         
         public static bool IsMuteAudio
@@ -25,6 +27,22 @@ namespace Project
         {
             get => GetBoolValue(Keys.IsFirstGame, true);
             set => SetBoolValue(Keys.IsFirstGame, value);
+        }
+
+        public static float LoopedMusicVolumeCoef
+        {
+            get =>
+                PlayerPrefs.GetFloat(Keys.LoopedMusicVolumeCoef, 1);
+            set =>
+                PlayerPrefs.SetFloat(Keys.LoopedMusicVolumeCoef, value);
+        }
+        
+        public static float VFXMusicVolumeCoef
+        {
+            get =>
+                PlayerPrefs.GetFloat(Keys.VFXMusicVolumeCoef, 1);
+            set =>
+                PlayerPrefs.SetFloat(Keys.VFXMusicVolumeCoef, value);
         }
 
         public static int GetSkinClaimProgress(SkinType skinType, SkinPartType partType)

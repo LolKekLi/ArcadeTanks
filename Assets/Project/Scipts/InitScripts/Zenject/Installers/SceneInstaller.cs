@@ -31,7 +31,8 @@ public class SceneInstaller : MonoInstaller
     private LevelData SetupLevelData()
     {
         var levelData = new LevelData();
-        
+
+        levelData.TankController = _playerController;
         levelData.Tanks.Add(_playerController);
 
         return levelData;

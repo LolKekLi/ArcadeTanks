@@ -110,6 +110,7 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
         UniTaskUtil.CancelToken(ref _HBBarRotationToken);
         UniTaskUtil.CancelToken(ref _hpBarSmooThChangeRotation);
         _attackControllerBase.Dispose();
+        _fsm.OnDied();
     }
 
     private void Start()

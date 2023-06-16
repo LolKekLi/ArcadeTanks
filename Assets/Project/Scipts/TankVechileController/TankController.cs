@@ -69,6 +69,7 @@ namespace Project
         private AudioManager _audioManager;
 
         private InputController inputs;
+        private bool _canFire = true;
 
 
         public float HP
@@ -89,6 +90,11 @@ namespace Project
                 _currentTurretType;
         }
 
+        public CameraController CameraController
+        {
+            get => _cameraController;
+        }
+        
         private void Awake()
         {
             Setup(_user.TurretType.Value, _user.BodyType.Value);
@@ -102,7 +108,8 @@ namespace Project
         private void OnDisable()
         {
             _levelFlowController.Finished -= LevelFlowController_Finished;
-            
+
+            _turretMovement.enabled = false;
             _subscribeLinks.Do(x => x.Dispose());
         }
 
@@ -174,7 +181,7 @@ namespace Project
 
         private void Fire()
         {
-            if (_attackController == null)
+            if (_attackController == null || !_canFire)
             {
                 return;
             }
@@ -273,6 +280,16 @@ namespace Project
         void IEffectTarget.AddHP(float presetValue)
         {
             _currentHp.Value = Mathf.Clamp(_currentHp.Value + presetValue, 0, _maxHP);
+        }
+
+        public void ToggleAttackController(bool isActive)
+        {
+            _turretMovement.enabled = isActive;
+            _canFire = isActive;
+
+            if (isActive)
+            {
+            }
         }
     }
 }

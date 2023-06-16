@@ -71,7 +71,6 @@ public class EnemyBehaviourFSM
 
     private void ChangeState(EnemyBehaviourType enemyBehaviourType, Transform transform)
     {
-        Debug.Log(enemyBehaviourType);
         CurrentBehaviour?.Exit();
         CurrentBehaviour = _behaviour[enemyBehaviourType];
         CurrentBehaviour?.SetupTargetTransform(transform);

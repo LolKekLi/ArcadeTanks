@@ -73,16 +73,17 @@ namespace Project
             _uiSystem.ShowWindow<FailWindow>();
         }
         
-        public async UniTask Load(Action callback = null)
+        public async UniTask Load(bool isNeedLoaderWindow = true ,Action callback = null)
         {
             PreLoaded.Invoke();
             
-            _uiSystem.ShowWindow<LoaderWindow>();
-            
             await SceneManager.LoadSceneAsync(_levelSettings.GetScene);
-
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
             
+            if (isNeedLoaderWindow)
+            {
+                _uiSystem.ShowWindow<LoaderWindow>();
+            }
+
             Loaded?.Invoke();
             
             if (LocalConfig.IsFirtsGame)

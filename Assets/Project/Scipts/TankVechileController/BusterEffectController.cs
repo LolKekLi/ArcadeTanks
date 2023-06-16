@@ -9,6 +9,8 @@ namespace Project
     [RequireComponent(typeof(IEffectTarget))]
     public class BusterEffectController : MonoBehaviour
     {
+        public static event Action<EffectType> EffectApplyed = delegate {  };
+        
         private IEffectTarget _target;
 
         private CancellationTokenSource _armorEffectToken;
@@ -33,6 +35,8 @@ namespace Project
 
         public void ApplyEffect(EffectType type)
         {
+            EffectApplyed(type);
+            
             var preset = _busterSettings.GetBusterPreset(type);
             
             _audioManager.Play2DSound(SoundType.GetBuster);

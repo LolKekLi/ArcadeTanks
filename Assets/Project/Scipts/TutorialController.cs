@@ -49,9 +49,9 @@ namespace Project
         private void OnDisable()
         {
             _levelFlowController.Loaded -= LevelFlowController_Loaded;
-
+            
             UniTaskUtil.CancelToken(ref _lisnerToken);
-            _subscribeLink.Dispose();
+            _subscribeLink?.Dispose();
         }
 
         private async void TutorialInputListner(CancellationToken refreshToken)

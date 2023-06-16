@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Project.Meta;
 using UniRx;
@@ -10,7 +11,7 @@ namespace Project.UI
 {
     public class MainWindow : Window
     {
-        [SerializeField]
+        [SerializeField, Space]
         private Button _startButton = null;
 
         [SerializeField]
@@ -19,10 +20,12 @@ namespace Project.UI
         [SerializeField]
         private UITurretSelector _turretSelector;
 
+        [SerializeField, Space]
+        private Button _settingButton;
+
         private LevelFlowController _levelFlowController = null;
         private IUser _user;
         private AudioManager _audioManager;
-
 
         public override bool IsPopup
         {
@@ -37,22 +40,16 @@ namespace Project.UI
             _user = user;
             _levelFlowController = levelFlowController;
         }
-      
+
         protected override void Start()
         {
             base.Start();
 
-            _startButton.onClick.AddListener(OnStartButtonClicked, SoundType.Click)
-                ;
-            _bodySelector.CurrentType.Subscribe(type =>
-            {
-                _user.SetBodyType(type);
-            });
+            _startButton.onClick.AddListener(OnStartButtonClicked, SoundType.Click);
+            _settingButton.onClick.AddListener(OnSettingButtonClick, SoundType.Click);
 
-            _turretSelector.CurrentType.Subscribe(type =>
-            {
-                _user.SetTurretType(type);
-            });
+            _bodySelector.CurrentType.Subscribe(type => { _user.SetBodyType(type); });
+            _turretSelector.CurrentType.Subscribe(type => { _user.SetTurretType(type); });
         }
 
         private void Update()
@@ -66,13 +63,18 @@ namespace Project.UI
         protected override void OnShow()
         {
             base.OnShow();
-            
+
             _audioManager.PlayLoopedSound(SoundType.HubScene, Vector3.zero, false);
         }
-        
+
         private void OnStartButtonClicked()
         {
-            _levelFlowController.Load();
+            _levelFlowController.Load().Forget();
+        }
+
+        private void OnSettingButtonClick()
+        {
+            _uiSystem.ShowWindow<SettingPopup>();
         }
     }
 }

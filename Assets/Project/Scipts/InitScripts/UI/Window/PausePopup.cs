@@ -16,6 +16,10 @@ namespace Project.UI
         [Inject]
         private LevelFlowController _levelFlowController;
 
+        private CameraController _cameraController;
+        private TankController _tankController;
+        private AttackControllerBase _attackConreoller;
+
 
         protected override void Start()
         {
@@ -29,11 +33,19 @@ namespace Project.UI
         {
             base.OnShow();
 
+            _tankController = GetDataValue<TankController>(InGamePauseHendler.TankControllerKey);
+
+            _tankController.ToggleAttackController(false);
+            _cameraController = _tankController.CameraController;
+            _cameraController.ToggleActive(false);
+
             Time.timeScale = 0;
         }
 
         protected override UniTask OnHide(bool isAnimationNeeded)
         {
+            _tankController.ToggleAttackController(true);
+            _cameraController.ToggleActive(true);
             Time.timeScale = 1;
 
             return base.OnHide(isAnimationNeeded);
@@ -41,12 +53,13 @@ namespace Project.UI
 
         private void OnHomeButtonClick()
         {
-            _levelFlowController.LoadHub();
+            _levelFlowController.LoadHub().Forget();
         }
 
         private void OnRestartButtonClick()
         {
-            _levelFlowController.Load();
+            _uiSystem.ReturnToPreviousWindow();
+            _levelFlowController.Load(false).Forget();
         }
     }
 }

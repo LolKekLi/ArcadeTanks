@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using PathCreation;
 using Project;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
-using UniTaskExtensions = Project.UniTaskExtensions;
 
 public class ReturnToPathBehaviour : EnemyBehaviourBase
 {

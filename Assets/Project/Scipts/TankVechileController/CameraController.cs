@@ -1,4 +1,5 @@
-﻿using Project.UI;
+﻿using System;
+using Project.UI;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Zenject;
@@ -61,6 +62,16 @@ public class CameraController : MonoBehaviour
         transform.position = (tankTransform.position + -tankTransform.forward) + (Vector3.up * 2);
         transform.LookAt(tankTransform.position + (Vector3.up * Height));
         currentDistance = zoomStepsNormal[zoomPointerNormal];
+    }
+
+    private void OnEnable()
+    {
+       
+    }
+
+    private void OnDisable()
+    {
+       
     }
 
     private void Update()
@@ -136,5 +147,22 @@ public class CameraController : MonoBehaviour
         }
 
         return _pos;
+    }
+
+    public void ToggleActive(bool isActive)
+    {
+        
+        if (isActive)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        
+        enabled = isActive;
     }
 }

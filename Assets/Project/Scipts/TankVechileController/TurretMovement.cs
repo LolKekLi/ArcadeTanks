@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Project;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class TurretMovement : MonoBehaviour
     private float _gunTraverseSpeed = 45f;
     private int _maxGunAngle_elevation = 35;
     private int _minGunAngle_depression = 8;
+    private bool _canUpdate;
 
     private GameObject _turretGameObject;
     private GameObject _gunGameObject;
@@ -24,15 +26,27 @@ public class TurretMovement : MonoBehaviour
 
     public float MinGunAngle_depression
     {
-        get => _minGunAngle_depression;
+        get =>
+            _minGunAngle_depression;
     }
 
     public float MaxGunAngle_elevation
     {
-        get => _maxGunAngle_elevation;
+        get =>
+            _maxGunAngle_elevation;
     }
 
-    public void Setup(GameObject turretGameObject1, GameObject firePosition,
+    private void Awake()
+    {
+        _canUpdate = false;
+    }
+
+    private void Start()
+    {
+        _turretLocalRotation = Quaternion.identity;
+    }
+
+    public async void Setup(GameObject turretGameObject1, GameObject firePosition,
         TankBodySettings.TankMovementPreset tankMovementPreset)
     {
         _turretTraverseSpeed = tankMovementPreset.turretTraverseSpeed;
@@ -43,14 +57,22 @@ public class TurretMovement : MonoBehaviour
         _turretGameObject = turretGameObject1;
         _gunGameObject = firePosition;
         TurretTargetPosition = transform.position + (transform.forward * 2);
+        _canUpdate = true;
         _targetPosition = TurretTargetPosition;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+
+        _canUpdate = true;
     }
 
     private void Update()
     {
         _targetPosition = TurretTargetPosition;
 
-        MoveTurret();
+        if (_canUpdate)
+        {
+            MoveTurret();
+        }
     }
 
     private void MoveTurret()
@@ -75,6 +97,11 @@ public class TurretMovement : MonoBehaviour
                 _turretRelativeRotTarget * Vector3.forward);
             float _angleBetweenGunAndTarget = Vector3.Angle(_gunLocalRotation * Vector3.forward,
                 _gunRelativeRotTarget * Vector3.forward);
+            if (_angleBetweenGunAndTarget == 0 || float.IsNaN(_angleBetweenGunAndTarget))
+            {
+                return;
+            }
+
             float _turretVelocity = 1 / _angleBetweenTurretAndTarget;
             float _gunVelocity = 1 / _angleBetweenGunAndTarget;
             float _horizontalSpeed = _turretTraverseSpeed;
@@ -126,6 +153,13 @@ public class TurretMovement : MonoBehaviour
             //apply local rotation
             _turretGameObject.transform.localRotation = Quaternion.Euler(_newTurretRotation);
             _gunGameObject.transform.localRotation = Quaternion.Euler(_newGunRotation);
+            try
+            {
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

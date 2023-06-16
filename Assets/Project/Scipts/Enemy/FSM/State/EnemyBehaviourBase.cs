@@ -33,5 +33,6 @@ public abstract class EnemyBehaviourBase
     public virtual void Dispose()
     {
         _subscribeLinks.Do(x=>x.Dispose());
+        _subscribeLinks.Clear();
     }
 }
