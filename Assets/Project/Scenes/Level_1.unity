@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.776
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2234285608833842175}
-  m_IndirectSpecularColor: {r: 0.3064736, g: 0.13853309, b: 0.13556789, a: 0.776}
+  m_IndirectSpecularColor: {r: 0.30644667, g: 0.13852474, b: 0.13554975, a: 0.776}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16265,7 +16265,7 @@ Transform:
   - {fileID: 333714710}
   - {fileID: 1165619285}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &462926218
 GameObject:
@@ -22459,50 +22459,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664985458}
   m_Mesh: {fileID: 4300000, guid: eacd77562771b624db2905d69c193443, type: 3}
---- !u!1 &665575667
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 665575669}
-  - component: {fileID: 665575668}
-  m_Layer: 0
-  m_Name: Helpaer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &665575668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 665575667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c0ba29129cc5964dbc4e00eb1898ae9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &665575669
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 665575667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.367472, y: 0.2295866, z: 139.65125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &667173532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62512,7 +62468,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1878086727
 PrefabInstance:
@@ -69889,6 +69845,7 @@ MonoBehaviour:
   _agent: {fileID: 1044715108441466945}
   _seePlayerTrigger: {fileID: 1044715109864653217}
   _attackTrigger: {fileID: 1044715108548590428}
+  _bulletLayer: EnemyBullet
 --- !u!4 &1044715108441466948
 Transform:
   m_ObjectHideFlags: 0
@@ -69921,7 +69878,7 @@ GameObject:
   - component: {fileID: 1044715108441466946}
   - component: {fileID: 1044715108441466944}
   - component: {fileID: 1044715108441466945}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70487,7 +70444,7 @@ GameObject:
   - component: {fileID: 1208391533633930158}
   - component: {fileID: 1208391533633930156}
   - component: {fileID: 1208391533633930157}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70571,6 +70528,7 @@ MonoBehaviour:
   _agent: {fileID: 1208391533633930157}
   _seePlayerTrigger: {fileID: 1208391534895131213}
   _attackTrigger: {fileID: 1208391533459509424}
+  _bulletLayer: EnemyBullet
 --- !u!224 &1208391533895572808
 RectTransform:
   m_ObjectHideFlags: 0
@@ -71649,6 +71607,7 @@ MonoBehaviour:
   _agent: {fileID: 1518207620347136440}
   _seePlayerTrigger: {fileID: 1518207619083362392}
   _attackTrigger: {fileID: 1518207620458191525}
+  _bulletLayer: EnemyBullet
 --- !u!65 &1518207620347136443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71694,7 +71653,7 @@ GameObject:
   - component: {fileID: 1518207620347136443}
   - component: {fileID: 1518207620347136441}
   - component: {fileID: 1518207620347136440}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72638,6 +72597,7 @@ MonoBehaviour:
   _agent: {fileID: 2595225265256607123}
   _seePlayerTrigger: {fileID: 2595225264378692723}
   _attackTrigger: {fileID: 2595225265078255246}
+  _bulletLayer: EnemyBullet
 --- !u!65 &2595225265256607122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72686,7 +72646,7 @@ GameObject:
   - component: {fileID: 2595225265256607120}
   - component: {fileID: 2595225265256607122}
   - component: {fileID: 2595225265256607123}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72951,7 +72911,7 @@ GameObject:
   - component: {fileID: 4398083767869795996}
   - component: {fileID: 4398083767869795998}
   - component: {fileID: 4398083767869795999}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73019,6 +72979,7 @@ MonoBehaviour:
   _agent: {fileID: 4398083767869795999}
   _seePlayerTrigger: {fileID: 4398083769150343039}
   _attackTrigger: {fileID: 4398083768048221570}
+  _bulletLayer: EnemyBullet
 --- !u!65 &4398083767869795998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73751,6 +73712,7 @@ MonoBehaviour:
   _agent: {fileID: 6042668898488784971}
   _seePlayerTrigger: {fileID: 6042668899758895531}
   _attackTrigger: {fileID: 6042668898646428502}
+  _bulletLayer: EnemyBullet
 --- !u!65 &6042668898488784970
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73799,7 +73761,7 @@ GameObject:
   - component: {fileID: 6042668898488784968}
   - component: {fileID: 6042668898488784970}
   - component: {fileID: 6042668898488784971}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75067,7 +75029,7 @@ GameObject:
   - component: {fileID: 6791114438899373412}
   - component: {fileID: 6791114438899373414}
   - component: {fileID: 6791114438899373415}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75135,6 +75097,7 @@ MonoBehaviour:
   _agent: {fileID: 6791114438899373415}
   _seePlayerTrigger: {fileID: 6791114438021479559}
   _attackTrigger: {fileID: 6791114438724879994}
+  _bulletLayer: EnemyBullet
 --- !u!65 &6791114438899373414
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75474,6 +75437,7 @@ MonoBehaviour:
   _agent: {fileID: 7096671892563888931}
   _seePlayerTrigger: {fileID: 7096671893961401027}
   _attackTrigger: {fileID: 7096671892389730366}
+  _bulletLayer: EnemyBullet
 --- !u!65 &7096671892563888930
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75522,7 +75486,7 @@ GameObject:
   - component: {fileID: 7096671892563888928}
   - component: {fileID: 7096671892563888930}
   - component: {fileID: 7096671892563888931}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76774,6 +76738,7 @@ MonoBehaviour:
   _agent: {fileID: 7145575940364148281}
   _seePlayerTrigger: {fileID: 7145575939075733465}
   _attackTrigger: {fileID: 7145575940253093156}
+  _bulletLayer: EnemyBullet
 --- !u!4 &7145575940364148284
 Transform:
   m_ObjectHideFlags: 0
@@ -76806,7 +76771,7 @@ GameObject:
   - component: {fileID: 7145575940364148282}
   - component: {fileID: 7145575940364148280}
   - component: {fileID: 7145575940364148281}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77410,6 +77375,7 @@ MonoBehaviour:
   _agent: {fileID: 7954083011237075851}
   _seePlayerTrigger: {fileID: 7954083012500861547}
   _attackTrigger: {fileID: 7954083011063433366}
+  _bulletLayer: EnemyBullet
 --- !u!65 &7954083011237075850
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77458,7 +77424,7 @@ GameObject:
   - component: {fileID: 7954083011237075848}
   - component: {fileID: 7954083011237075850}
   - component: {fileID: 7954083011237075851}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78278,6 +78244,7 @@ MonoBehaviour:
   _agent: {fileID: 8496866076929811386}
   _seePlayerTrigger: {fileID: 8496866077805087322}
   _attackTrigger: {fileID: 8496866076767908007}
+  _bulletLayer: EnemyBullet
 --- !u!65 &8496866076929811385
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78339,7 +78306,7 @@ GameObject:
   - component: {fileID: 8496866076929811385}
   - component: {fileID: 8496866076929811387}
   - component: {fileID: 8496866076929811386}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78612,6 +78579,7 @@ MonoBehaviour:
   _agent: {fileID: 8631149336853520395}
   _seePlayerTrigger: {fileID: 8631149337723062763}
   _attackTrigger: {fileID: 8631149336948257558}
+  _bulletLayer: EnemyBullet
 --- !u!65 &8631149336853520394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78660,7 +78628,7 @@ GameObject:
   - component: {fileID: 8631149336853520392}
   - component: {fileID: 8631149336853520394}
   - component: {fileID: 8631149336853520395}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

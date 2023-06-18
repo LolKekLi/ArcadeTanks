@@ -45,9 +45,10 @@ public abstract class Bullet : PooledBehaviour
         _collider = GetComponent<Collider>();
     }
 
-    public virtual void Setup(float damage)
+    public virtual void Setup(float damage, int layer)
     {
         _damage = damage;
+        gameObject.layer = layer;
     }
 
     private void GetDamage(IDamagable damagable)

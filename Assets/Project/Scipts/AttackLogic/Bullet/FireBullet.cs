@@ -7,9 +7,9 @@ public class FireBullet : Bullet
 
     private IDamagable _target;
 
-    public override void Setup(float damage)
+    public override void Setup(float damage, int layer)
     {
-        base.Setup(damage);
+        base.Setup(damage, layer);
 
         _particleSystem.Play();
     }

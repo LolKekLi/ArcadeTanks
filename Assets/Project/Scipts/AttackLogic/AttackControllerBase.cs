@@ -14,6 +14,7 @@ namespace Project
         protected ParticleSystem _onFireParticle;
         protected AudioManager _audioManager;
         protected SoundType _reloadeSoundType;
+        protected int _bulletLayer;
 
         public abstract bool CanFire
         {
@@ -32,8 +33,9 @@ namespace Project
 
         public virtual void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
             float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
-            AudioManager audioManager)
+            AudioManager audioManager, int layer)
         {
+            _bulletLayer = layer;
             _audioManager = audioManager;
             _onFireParticle = onFireParticle;
             _onFireStopedCallBack = onFireStopedCallBack;

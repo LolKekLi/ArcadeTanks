@@ -20,9 +20,9 @@ public class ClassicBullet : Bullet
     private float _cuuerntSpeed;
     
     
-    public override void Setup(float damage)
+    public override void Setup(float damage, int layer)
     {
-        base.Setup(damage);
+        base.Setup(damage, layer);
         
         _cuuerntSpeed = _speed;
     }

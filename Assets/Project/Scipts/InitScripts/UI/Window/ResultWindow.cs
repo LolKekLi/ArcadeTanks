@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -10,6 +11,9 @@ namespace Project.UI
 
         [SerializeField, Space]
         private Button _continueButton = null;
+
+        [SerializeField]
+        private TMPro.TextMeshProUGUI _scoreText;
 
         private LevelFlowController _levelFlowController = null;
         
@@ -35,12 +39,14 @@ namespace Project.UI
         {
             base.OnShow();
 
-            int receivedCoins = GetDataValue<int>(ReceivedCoinsKey, 0);   
+            var score = GetDataValue<int>(ScoreController.ScoreKey);
+
+            _scoreText.text = $"x {score}";
         }
         
         private void OnContinueButtonClicked()
         {
-            _levelFlowController.LoadHub();
+            _levelFlowController.LoadHub().Forget();
         }
     }
 }

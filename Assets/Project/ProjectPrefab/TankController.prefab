@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _earthTag: earth
+  <IsGrounded>k__BackingField: 0
 --- !u!1 &3481820257364680763
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,6 +735,7 @@ MonoBehaviour:
   _tankViewModel: {fileID: 6482227981948328862}
   _armorCollider: {fileID: 1351347945559720295}
   _shiedlEffect: {fileID: 1064829238512743840}
+  _bulletLayerName: Bullet
 --- !u!114 &3904670579477819189
 MonoBehaviour:
   m_ObjectHideFlags: 0

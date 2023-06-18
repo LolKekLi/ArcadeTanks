@@ -54,8 +54,11 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
     [SerializeField]
     private ObservableSphereTriggerTrigger _seePlayerTrigger;
 
-    [SerializeField]
+    [SerializeField, Space]
     private ObservableSphereTriggerTrigger _attackTrigger;
+
+    [SerializeField]
+    private string _bulletLayer;
     
     private float _currentHP;
     private float _distanceTravelled;
@@ -130,7 +133,7 @@ public class EnemyController : MonoBehaviour, IDamagable , ITank
         _attackControllerBase = _attackControllerFactory.GetAttackController(_turretType);
 
         _attackControllerBase.Setup(_fireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
-            _tankViewModel.FireRange, null, _tankViewModel.OnFireParticle, null);
+            _tankViewModel.FireRange, null, _tankViewModel.OnFireParticle, null, LayerMask.NameToLayer(_bulletLayer));
 
         _fsm = new EnemyBehaviourFSM(transform, _pathCreator, _attackControllerBase,
             _tankViewModel.TurretGameObject.transform,

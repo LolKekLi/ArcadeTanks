@@ -37,9 +37,9 @@ namespace Project
 
         public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
             float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
-            AudioManager audioManager)
+            AudioManager audioManager, int layer)
         {
-            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager);
+            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager, layer);
             
             _fireRange = fireRange;
             _currentFirePreset = fireSettings.TwoGunFirePreset;
@@ -47,6 +47,8 @@ namespace Project
 
         public override void Fire()
         {
+            Debug.Log(_delay);
+            
             if (_isOverheat)
             {
                 _isOverheat = false;
@@ -66,13 +68,14 @@ namespace Project
             var _bullet = _bulletFactory.GetBullet(Type);
 
             var position = _firePosition.position +
-                _firePosition.TransformDirection(new Vector3(_fireRange, 0)) * (_isRight ? 1 : -1);
+                _firePosition.TransformDirection(new Vector3(_fireRange, 0)) 
+                * (_isRight ? 1 : -1);
 
             _onFireParticle.transform.position = position;
             _onFireParticle.Play();
             _bullet.transform.position = position;
             _bullet.transform.rotation = Quaternion.LookRotation(_firePosition.forward);
-            _bullet.Setup(_currentFirePreset.Damage);
+            _bullet.Setup(_currentFirePreset.Damage, _bulletLayer);
             _bullet.Fire(_firePosition.forward);
         }
 
@@ -105,7 +108,7 @@ namespace Project
             _onFireStopedCallBack?.Invoke(isOverhead);
 
             UniTaskUtil.CancelToken(ref _overclockingToken);
-            _delay = _currentFirePreset.FireDelay.Max;
+            _delay = 0;
         }
 
         public override void Dispose()

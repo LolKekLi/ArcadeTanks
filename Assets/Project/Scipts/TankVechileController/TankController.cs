@@ -36,6 +36,9 @@ namespace Project
         [SerializeField]
         private VisualEffect _shiedlEffect;
 
+        [SerializeField]
+        private string _bulletLayerName;
+
         private bool _isMoveSoundPlay;
         private float _maxHP;
 
@@ -134,7 +137,8 @@ namespace Project
             _attackController = _attackControllerFactory.GetAttackController(turretType);
 
             _attackController.Setup(_tankFireSettings, _tankViewModel.FirePosition.transform, _bulletFactory,
-                _tankViewModel.FireRange, isOverheat => { StopFire(isOverheat); }, _tankViewModel.OnFireParticle, _audioManager);
+                _tankViewModel.FireRange, isOverheat => { StopFire(isOverheat); },
+                _tankViewModel.OnFireParticle, _audioManager, LayerMask.NameToLayer(_bulletLayerName));
 
             _maxHP = tankMovementPreset.HP;
             _currentHp.Value = tankMovementPreset.HP;

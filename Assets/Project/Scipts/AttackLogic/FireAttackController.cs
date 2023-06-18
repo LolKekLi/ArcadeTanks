@@ -37,9 +37,9 @@ namespace Project
 
         public override void Setup(TankFireSettings fireSettings, Transform firePosition, BulletFactory bulletFactory,
             float fireRange, Action<bool> onFireStopedCallBack, ParticleSystem onFireParticle,
-            AudioManager audioManager)
+            AudioManager audioManager, int layer)
         {
-            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager);
+            base.Setup(fireSettings, firePosition, bulletFactory, fireRange, onFireStopedCallBack, onFireParticle, audioManager, layer);
             _currentFirePreset = fireSettings.FireTankFirePresets;
         }
 
@@ -57,7 +57,7 @@ namespace Project
                 _bulletTransform.position = _firePosition.position;
                 _bulletTransform.rotation = Quaternion.LookRotation(_firePosition.forward);
                 _bulletTransform.parent = _firePosition;
-                _bullet.Setup(_currentFirePreset.Damage);
+                _bullet.Setup(_currentFirePreset.Damage, _bulletLayer);
 
                 StartFlaimTimer(UniTaskUtil.RefreshToken(ref _flameToken)).Forget();
                 

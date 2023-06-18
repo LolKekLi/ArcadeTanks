@@ -7,6 +7,7 @@ public class GrodedChecker : MonoBehaviour
     [SerializeField]
     private string _earthTag;
 
+    [field: SerializeField]
     public bool IsGrounded
     {
         get;
