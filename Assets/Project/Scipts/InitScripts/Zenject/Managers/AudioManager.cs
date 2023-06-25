@@ -140,7 +140,12 @@ namespace Project
         {
             foreach (var loopedAudioData in _loopedAudios)
             {
-                loopedAudioData.Value.PooledAudio = null;
+                if (  loopedAudioData.Value.PooledAudio)
+                {
+                    Debug.Log(loopedAudioData.Key);
+                    loopedAudioData.Value.PooledAudio.Free();
+                    loopedAudioData.Value.PooledAudio = null;
+                }
             }
         }
 

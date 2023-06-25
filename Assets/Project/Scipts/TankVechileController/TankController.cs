@@ -221,6 +221,8 @@ namespace Project
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            _audioManager.StopLoopedSound(SoundType.TankMove, true);
+            
             DisableControll();
         }
 

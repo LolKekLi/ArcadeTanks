@@ -147,7 +147,7 @@ namespace Project
             {
                 _turretRb.isKinematic = true;
                 _turretRb.useGravity = false;
-                _turretColleder.enabled = false;
+                _turretColleder.enabled = true;
                 _turretRb.velocity = Vector3.zero;
             }
         }
@@ -184,7 +184,6 @@ namespace Project
         {
             _turretRb.useGravity = true;
             _turretRb.isKinematic = false;
-            _turretColleder.enabled = true;
             _turretRb.velocity = Vector3.zero;
 
             var pushDirection = TurretGameObject.transform.up;

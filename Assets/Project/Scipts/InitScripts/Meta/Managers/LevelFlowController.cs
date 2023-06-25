@@ -5,6 +5,7 @@ using Project.Meta;
 using Project.Service;
 using Project.Settings;
 using Project.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -76,6 +77,8 @@ namespace Project
         public async UniTask Load(bool isNeedLoaderWindow = true ,Action callback = null)
         {
             PreLoaded.Invoke();
+            
+            Debug.Log(_levelSettings.GetScene);
             
             await SceneManager.LoadSceneAsync(_levelSettings.GetScene);
             
